@@ -1,6 +1,6 @@
 # projectapp
 
-A new Flutter project.
+App Tính BMI
 
 ## Getting Started
 

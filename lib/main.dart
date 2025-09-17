@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'screens/home_screen.dart';
+import 'screens/history_screen.dart';
 import 'l10n/app_localizations.dart';
 
 void main() {
@@ -33,21 +34,21 @@ class _MyAppState extends State<MyApp> {
         sliderTheme: SliderThemeData(
           activeTrackColor: Colors.blue,
           thumbColor: Colors.blue,
-          inactiveTrackColor: Colors.grey,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            textStyle:
+                const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
         textTheme: const TextTheme(
           bodyLarge: TextStyle(fontFamily: 'Roboto', fontSize: 18),
           bodyMedium: TextStyle(fontFamily: 'Roboto', fontSize: 16),
         ),
-        useMaterial3: true, // Bật Material 3 để giao diện hiện đại hơn
-        visualDensity: VisualDensity.adaptivePlatformDensity, // Responsive theo thiết bị
+        useMaterial3: true,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       locale: _locale,
       supportedLocales: const [Locale('en'), Locale('vi')],
@@ -57,7 +58,12 @@ class _MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home: HomeScreen(onLocaleChange: setLocale),
+      routes: {
+        '/home': (context) => HomeScreen(onLocaleChange: setLocale),
+        '/history': (context) =>
+            HistoryScreen(), // Thêm route cho HistoryScreen
+      },
+      initialRoute: '/home',
     );
   }
 }

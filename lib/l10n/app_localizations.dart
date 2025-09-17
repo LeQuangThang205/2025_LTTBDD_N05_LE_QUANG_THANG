@@ -27,7 +27,15 @@ class AppLocalizations {
   String get overweight => locale.languageCode == 'vi' ? 'Thừa cân' : 'Overweight';
   String get obese => locale.languageCode == 'vi' ? 'Béo phì' : 'Obese';
   String get back => locale.languageCode == 'vi' ? 'Quay lại' : 'Back';
-  String get saveResult => locale.languageCode == 'vi' ? 'Lưu kết quả' : 'Save Result'; // Thêm để dự phòng
+  String get history => locale.languageCode == 'vi' ? 'Lịch sử' : 'History';
+  String get trendChart => locale.languageCode == 'vi' ? 'Biểu đồ xu hướng' : 'Trend Chart';
+  String get advice => locale.languageCode == 'vi' ? 'Gợi ý cá nhân hóa' : 'Personalized Advice';
+  String get weightTrack => locale.languageCode == 'vi' ? 'Theo dõi cân nặng' : 'Weight Tracking';
+  String get eatHealthy => locale.languageCode == 'vi' ? 'Ăn uống lành mạnh, tăng calo' : 'Eat healthy, increase calories';
+  String get maintain => locale.languageCode == 'vi' ? 'Duy trì lối sống cân bằng' : 'Maintain balanced lifestyle';
+  String get exerciseMore => locale.languageCode == 'vi' ? 'Tập luyện nhiều hơn, giảm calo' : 'Exercise more, reduce calories';
+  String get consultDoctor => locale.languageCode == 'vi' ? 'Tư vấn bác sĩ, chế độ giảm cân nghiêm ngặt' : 'Consult doctor, strict diet';
+  String get weightChange => locale.languageCode == 'vi' ? 'Thay đổi cân nặng: ' : 'Weight Change: ';
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

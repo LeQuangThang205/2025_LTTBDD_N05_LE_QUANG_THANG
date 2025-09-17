@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../l10n/app_localizations.dart';
 import 'result_screen.dart';
 
@@ -30,6 +31,12 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(loc.appTitle),
         actions: [
+          IconButton(
+            icon: Icon(Icons.history),
+            onPressed: () {
+              Navigator.pushNamed(context, '/history'); // Chuyển đến HistoryScreen
+            },
+          ),
           DropdownButton<Locale>(
             value: _locale,
             items: const [
@@ -53,70 +60,34 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: SingleChildScrollView( // Thêm để responsive
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Card(
-              elevation: 4, // Bo góc và bóng
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    Text(loc.height, style: const TextStyle(fontSize: 18)),
-                    Slider(
-                      value: _height,
-                      min: 100,
-                      max: 220,
-                      onChanged: (value) => setState(() => _height = value),
-                    ),
-                    Text('${_height.round()} cm'),
-                  ],
-                ),
-              ),
+            Text(loc.height, style: const TextStyle(fontSize: 18)),
+            Slider(
+              value: _height,
+              min: 100,
+              max: 220,
+              onChanged: (value) => setState(() => _height = value),
             ),
-            const SizedBox(height: 16),
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    Text(loc.weight, style: const TextStyle(fontSize: 18)),
-                    Slider(
-                      value: _weight,
-                      min: 30,
-                      max: 150,
-                      onChanged: (value) => setState(() => _weight = value),
-                    ),
-                    Text('${_weight.round()} kg'),
-                  ],
-                ),
-              ),
+            Text('${_height.round()} cm'),
+            Text(loc.weight, style: const TextStyle(fontSize: 18)),
+            Slider(
+              value: _weight,
+              min: 30,
+              max: 150,
+              onChanged: (value) => setState(() => _weight = value),
             ),
-            const SizedBox(height: 16),
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    Text(loc.age, style: const TextStyle(fontSize: 18)),
-                    Slider(
-                      value: _age.toDouble(),
-                      min: 10,
-                      max: 100,
-                      onChanged: (value) => setState(() => _age = value.round()),
-                    ),
-                    Text('$_age'),
-                  ],
-                ),
-              ),
+            Text('${_weight.round()} kg'),
+            Text(loc.age, style: const TextStyle(fontSize: 18)),
+            Slider(
+              value: _age.toDouble(),
+              min: 10,
+              max: 100,
+              onChanged: (value) => setState(() => _age = value.round()),
             ),
-            const SizedBox(height: 16),
+            Text('$_age'),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -134,22 +105,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              icon: const Icon(Icons.calculate),
-              label: Text(loc.calculate),
+            ElevatedButton(
               onPressed: () {
                 final bmi = _weight / ((_height / 100) * (_height / 100));
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ResultScreen(bmi: bmi),
+                    builder: (_) => ResultScreen(bmi: bmi, weight: _weight), // Truyền cân nặng để theo dõi
                   ),
                 );
               },
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              ),
+              child: Text(loc.calculate),
             ),
           ],
         ),

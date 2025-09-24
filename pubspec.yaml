@@ -1,10 +1,10 @@
 name: bmi_calculator_app
 description: "A BMI Calculator App for mobile programming project."
-publish_to: 'none'
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -13,13 +13,13 @@ dependencies:
     sdk: flutter
   intl: ^0.20.2
   fl_chart: ^1.1.0
-  shared_preferences: ^2.3.2  # Lưu lịch sử
-  share_plus: ^10.0.0  # Chia sẻ kết quả
+  shared_preferences: ^2.3.2 # Lưu lịch sử
+  share_plus: ^10.0.0 # Chia sẻ kết quả
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0  # Cập nhật nếu cần
+  flutter_lints: ^6.0.0 # Cập nhật nếu cần
 
 flutter:
   uses-material-design: true
@@ -27,3 +27,6 @@ flutter:
     - family: Roboto
       fonts:
         - asset: fonts/Roboto-Regular.ttf
+  assets:
+    - assets/images/home.jpg
+  # Thêm các assets khác nếu có (như từ ResultScreen)

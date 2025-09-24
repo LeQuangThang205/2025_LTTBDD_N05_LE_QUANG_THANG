@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import '../l10n/app_localizations.dart';
 import 'result_screen.dart';
 
@@ -32,9 +31,10 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(loc.appTitle),
         actions: [
           IconButton(
-            icon: Icon(Icons.history),
+            icon: const Icon(Icons.history),
             onPressed: () {
-              Navigator.pushNamed(context, '/history'); // Chuyển đến HistoryScreen
+              Navigator.pushNamed(
+                  context, '/history'); // Chuyển đến HistoryScreen
             },
           ),
           DropdownButton<Locale>(
@@ -60,64 +60,114 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Text(loc.height, style: const TextStyle(fontSize: 18)),
-            Slider(
-              value: _height,
-              min: 100,
-              max: 220,
-              onChanged: (value) => setState(() => _height = value),
-            ),
-            Text('${_height.round()} cm'),
-            Text(loc.weight, style: const TextStyle(fontSize: 18)),
-            Slider(
-              value: _weight,
-              min: 30,
-              max: 150,
-              onChanged: (value) => setState(() => _weight = value),
-            ),
-            Text('${_weight.round()} kg'),
-            Text(loc.age, style: const TextStyle(fontSize: 18)),
-            Slider(
-              value: _age.toDouble(),
-              min: 10,
-              max: 100,
-              onChanged: (value) => setState(() => _age = value.round()),
-            ),
-            Text('$_age'),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Male'),
-                Radio<String>(
-                  value: 'Male',
-                  groupValue: _gender,
-                  onChanged: (value) => setState(() => _gender = value!),
-                ),
-                Text('Female'),
-                Radio<String>(
-                  value: 'Female',
-                  groupValue: _gender,
-                  onChanged: (value) => setState(() => _gender = value!),
-                ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: const AssetImage('assets/images/home.jpg'),
+            fit: BoxFit.fill, // Sử dụng fill để ảnh full, bỏ qua tỷ lệ gốc
+            opacity: 0.3, // Giữ mờ
+            onError: (exception, stackTrace) => LinearGradient(
+              colors: [
+                Colors.blue.withOpacity(0.2),
+                Colors.blue.withOpacity(0.1)
               ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
-            ElevatedButton(
-              onPressed: () {
-                final bmi = _weight / ((_height / 100) * (_height / 100));
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => ResultScreen(bmi: bmi, weight: _weight), // Truyền cân nặng để theo dõi
-                  ),
-                );
-              },
-              child: Text(loc.calculate),
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height -
+                      AppBar().preferredSize.height,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        Text(loc.height,
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        Slider(
+                          value: _height,
+                          min: 100,
+                          max: 220,
+                          onChanged: (value) => setState(() => _height = value),
+                        ),
+                        Text('${_height.round()} cm'),
+                        const SizedBox(height: 16),
+                        Text(loc.weight,
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        Slider(
+                          value: _weight,
+                          min: 30,
+                          max: 150,
+                          onChanged: (value) => setState(() => _weight = value),
+                        ),
+                        Text('${_weight.round()} kg'),
+                        const SizedBox(height: 16),
+                        Text(loc.age,
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        Slider(
+                          value: _age.toDouble(),
+                          min: 10,
+                          max: 100,
+                          onChanged: (value) =>
+                              setState(() => _age = value.round()),
+                        ),
+                        Text('$_age'),
+                        const SizedBox(height: 16),
+                        Text(loc.gender,
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(loc.male),
+                            Radio<String>(
+                              value: 'Male',
+                              groupValue: _gender,
+                              onChanged: (value) =>
+                                  setState(() => _gender = value!),
+                            ),
+                            Text(loc.female),
+                            Radio<String>(
+                              value: 'Female',
+                              groupValue: _gender,
+                              onChanged: (value) =>
+                                  setState(() => _gender = value!),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        final bmi =
+                            _weight / ((_height / 100) * (_height / 100));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                ResultScreen(bmi: bmi, weight: _weight),
+                          ),
+                        );
+                      },
+                      child: Text(loc.calculate),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ],
+          ),
         ),
       ),
     );

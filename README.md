@@ -1,65 +1,43 @@
-# projectapp
+#Ứng Dụng Tính Chỉ Số BMI
+Giữ Vóc Dáng Chuẩn với Máy Theo Dõi BMI của Chúng Tôi!
+Một công cụ tính và theo dõi Chỉ Số Khối Cơ Thể (BMI) thân thiện, phù hợp cho nam, nữ, trẻ em, thanh thiếu niên và người lớn. Dù bạn đang trên hành trình giảm cân, tăng cơ hay duy trì sức khỏe, ứng dụng này sẽ là người bạn đồng hành tuyệt vời!
 
-App Tính BMI
+✨ Có Gì Bên Trong?
+Khám phá một công cụ mạnh mẽ được gói gọn trong giao diện tối giản nhưng đầy phong cách, giúp bạn bắt đầu lối sống lành mạnh ngay hôm nay. Tính BMI dễ dàng, theo dõi tiến trình và nhận được những gợi ý cá nhân hóa—tất cả miễn phí!
 
-## Getting Started
+🌟 Tính Năng Nổi Bật
+Sử Dụng Ngoại Tuyến: Không cần internet? Vẫn dùng được mọi lúc, mọi nơi!
+Tính BMI Chính Xác: Dựa trên tuổi, giới tính, chiều cao và cân nặng cho kết quả đáng tin cậy.
+Phân Loại BMI: Xem ngay bạn thuộc nhóm nào với các phân loại chi tiết.
+Gợi Ý Trọng Lượng Chuẩn: Nhận trọng lượng lý tưởng dựa trên chiều cao của bạn.
+Linh Hoạt Đơn Vị: Chuyển đổi giữa đơn vị Mỹ (lbs, ft) và Metric (kg, cm).
+Theo Dõi Lịch Sử: Ghi lại hành trình BMI của bạn với nhật ký chi tiết.
+Mẹo Sống Khỏe: Lời khuyên cá nhân hóa để hỗ trợ mục tiêu fitness.
+Chế Độ Giao Diện: Chuyển giữa sáng và tối—chọn phong cách bạn thích!
+Hỗ Trợ Nhiều Ngôn Ngữ: Tiếng Việt và Tiếng Anh (sắp có thêm!).
+Thiết Kế Đơn Giản: Giao diện hiện đại, dễ dùng.
+Hoàn Toàn Miễn Phí: Không chi phí ẩn, chỉ có lợi ích sức khỏe!
+📊 Các Danh Mục BMI
 
-Duy trì cân nặng hợp lý với Máy theo dõi chỉ số khối cơ thể dành cho nam và nữ.
+Phạm Vi	Phân Loại
+< 16	Gầy Nặng
+16 - 17	Độ Mỏng Trung Bình
+17 - 18.5	Độ Mỏng Nhẹ
+18.5 - 25	Bình Thường
+25 - 30	Thừa Cân
+30 - 35	Béo Phì Độ I
+35 - 40	Béo Phì Độ II
+> 40	Béo Phì Độ III
+🤔 Chỉ Số BMI Là Gì?
+Chỉ Số Khối Cơ Thể (BMI) là một chỉ số đáng tin cậy để đo lượng mỡ trong cơ thể dựa trên chiều cao và cân nặng, áp dụng cho cả nam và nữ. BMI được tính bằng cách lấy cân nặng (kg) chia cho bình phương chiều cao (m), biểu thị bằng kg/m². Ứng dụng này sử dụng tuổi và giới tính để tăng độ chính xác, giúp bạn hiểu rõ hơn về tình trạng sức khỏe của mình.
 
-
-Máy tính và theo dõi chỉ số khối cơ thể (BMI) dành cho nam giới và phụ nữ, trẻ em, thanh thiếu niên và người lớn có thể dễ dàng sử dụng để tính toán và theo dõi giá trị BMI. Ứng dụng sử dụng độ tuổi và giới tính để tăng độ chính xác của phép tính và sẽ là người bạn đồng hành tuyệt vời cho bạn trên con đường giảm hoặc tăng cân.
-
-
-Chỉ số khối cơ thể (BMI) là gì?
-
-Body Bass Index là thước đo lượng mỡ trong cơ thể dựa trên chiều cao và cân nặng áp dụng cho nam và nữ. Chỉ số BMI được định nghĩa là khối lượng cơ thể chia cho bình phương chiều cao cơ thể và được biểu thị bằng đơn vị kg/m2, là kết quả của khối lượng tính bằng kilôgam và chiều cao tính bằng mét.
-
-
-Bắt tay vào theo dõi chỉ số BMI của bạn đơn giản như nhập giới tính, tuổi, cân nặng và chiều cao của bạn bằng cách sử dụng các thước đo tiêu chuẩn hoặc số liệu. Nhấp vào nút tính toán và tìm hiểu xem bạn có cân nặng khỏe mạnh hay không.
-
-
-Danh mục BMI:
-
-- Gầy nặng: dưới 16
-
-- Độ Mỏng Trung Bình: 16 - 17
-
-- Độ Mỏng Nhẹ: 17 - 18.5
-
-- Bình thường: 18,5 - 25
-
-- Thừa cân: 25 - 30
-
-- Béo phì độ I: 30 - 35
-
-- Béo phì độ II: 35 - 40
-
-- Béo phì độ III: trên 40
-
-
-Các tính năng chính:
-
-- Sử dụng ứng dụng ngoại tuyến
-
-- Tính Body Mass Index theo độ tuổi, giới tính, chiều cao và cân nặng
-
-- Hiển thị phân loại BMI
-
-- Hiển thị trọng lượng khỏe mạnh cho chiều cao
-
-- Sử dụng đơn vị US hoặc đơn vị Metric
-
-- Lịch sử chi tiết để theo dõi tiến trình
-
-- Nội dung hữu ích về lối sống lành mạnh
-
-- Chuyển đổi giữa chủ đề sáng và tối. Chọn cái bạn thích
-
-- Hỗ trợ nhiều ngôn ngữ
-
-- Thiết kế tối giản
-
-- Hoàn toàn miễn phí
-
-
-Trình theo dõi chỉ số BMI của chúng tôi là một công cụ mạnh mẽ được đóng gói trong một giao diện đơn giản và trang nhã, sẽ giúp bạn bắt đầu có một lối sống lành mạnh ngay hôm nay.
+🚀 Hướng Dẫn Bắt Đầu
+Cách Sử Dụng
+Nhập Thông Tin: Điền giới tính, tuổi, cân nặng và chiều cao bằng các thanh trượt hoặc số liệu.
+Tính Toán: Nhấn nút "Tính Toán" để xem BMI và phân loại của bạn.
+Khám Phá: Kiểm tra trọng lượng lý tưởng, BMR (Tỷ Lệ Chuyển Hóa Cơ Bản), và lời khuyên cá nhân.
+Theo Dõi Tiến Trình: Xem lịch sử và xu hướng để giữ động lực!
+Điều Kiện Tiền Quyết
+Flutter SDK: Đảm bảo đã cài Flutter (phiên bản 3.0.0 trở lên).
+IDE: Sử dụng Android Studio, VS Code hoặc bất kỳ trình soạn thảo nào hỗ trợ Flutter.
+Phụ Thuộc: Cài đặt các package cần thiết qua pubspec.yaml.

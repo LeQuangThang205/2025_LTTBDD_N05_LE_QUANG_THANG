@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/animation.dart';
 import '../l10n/app_localizations.dart';
 import 'result_screen.dart';
 
@@ -10,12 +11,26 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   double _height = 150;
   double _weight = 60;
   int _age = 25;
   String _gender = 'Male';
   late Locale _locale;
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
+    _controller.forward();
+  }
 
   @override
   void didChangeDependencies() {
@@ -24,29 +39,57 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  double calculateBMR() {
+    double bmr;
+    if (_gender == 'Male') {
+      bmr = 10 * _weight + 6.25 * _height - 5 * _age + 5;
+    } else {
+      bmr = 10 * _weight + 6.25 * _height - 5 * _age - 161;
+    }
+    return bmr;
+  }
+
+  double calculateIdealWeight() {
+    return (_height - 100) * 0.9;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(loc.appTitle),
+        title: Text(loc.appTitle, style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.blue[700],
         actions: [
           IconButton(
-            icon: const Icon(Icons.history),
+            icon: const Icon(Icons.history, color: Colors.white),
             onPressed: () {
-              Navigator.pushNamed(
-                  context, '/history'); // Chuyển đến HistoryScreen
+              Navigator.pushNamed(context, '/history');
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.info, color: Colors.white),
+            onPressed: () {
+              Navigator.pushNamed(context, '/about');
             },
           ),
           DropdownButton<Locale>(
             value: _locale,
+            dropdownColor: Colors.blue[700],
+            style: const TextStyle(color: Colors.white),
             items: const [
               DropdownMenuItem(
                 value: Locale('en'),
-                child: Text('EN'),
+                child: Text('EN', style: TextStyle(color: Colors.white)),
               ),
               DropdownMenuItem(
                 value: Locale('vi'),
-                child: Text('VI'),
+                child: Text('VI', style: TextStyle(color: Colors.white)),
               ),
             ],
             onChanged: (Locale? newLocale) {
@@ -61,19 +104,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
-            image: const AssetImage('assets/images/home.jpg'),
-            fit: BoxFit.fill, // Sử dụng fill để ảnh full, bỏ qua tỷ lệ gốc
-            opacity: 0.3, // Giữ mờ
-            onError: (exception, stackTrace) => LinearGradient(
-              colors: [
-                Colors.blue.withOpacity(0.2),
-                Colors.blue.withOpacity(0.1)
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+            image: AssetImage('assets/images/home.jpg'),
+            fit: BoxFit.fill,
+            opacity: 0.3,
           ),
         ),
         child: SafeArea(

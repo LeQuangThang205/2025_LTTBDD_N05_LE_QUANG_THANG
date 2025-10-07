@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'screens/splash_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/history_screen.dart';
+import 'screens/about_screen.dart';
 import 'l10n/app_localizations.dart';
 
 void main() {
@@ -28,28 +30,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'BMI Calculator',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.grey[100],
-        sliderTheme: SliderThemeData(
-          activeTrackColor: Colors.blue,
-          thumbColor: Colors.blue,
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            textStyle:
-                const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        ),
-        textTheme: const TextTheme(
-          bodyLarge: TextStyle(fontFamily: 'Roboto', fontSize: 18),
-          bodyMedium: TextStyle(fontFamily: 'Roboto', fontSize: 16),
-        ),
-        useMaterial3: true,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
       locale: _locale,
       supportedLocales: const [Locale('en'), Locale('vi')],
       localizationsDelegates: const [
@@ -60,10 +41,10 @@ class _MyAppState extends State<MyApp> {
       ],
       routes: {
         '/home': (context) => HomeScreen(onLocaleChange: setLocale),
-        '/history': (context) =>
-            HistoryScreen(), // Thêm route cho HistoryScreen
+        '/history': (context) => HistoryScreen(), // Bỏ const
+        '/about': (context) => AboutScreen(onLocaleChange: setLocale),
       },
-      initialRoute: '/home',
+      home: SplashScreen(onLocaleChange: setLocale),
     );
   }
 }

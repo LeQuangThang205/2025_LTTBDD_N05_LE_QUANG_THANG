@@ -27,9 +27,18 @@ class _HistoryScreenState extends State<HistoryScreen> {
   List<FlSpot> _getChartData() {
     List<FlSpot> spots = [];
     for (int i = 0; i < _history.length; i++) {
-      final parts = _history[i].split(': ');
-      final bmi = double.parse(parts[1].split(', ')[0].split(' ')[1]);
-      spots.add(FlSpot(i.toDouble(), bmi));
+      try {
+        final parts = _history[i].split(': ');
+        if (parts.length > 1) {
+          final bmiPart = parts[1].split(', ')[0].split(' ');
+          if (bmiPart.length > 1) {
+            final bmi = double.tryParse(bmiPart[1].replaceAll(',', '')) ?? 0.0;
+            spots.add(FlSpot(i.toDouble(), bmi));
+          }
+        }
+      } catch (e) {
+        print('Error parsing BMI at index $i: $e');
+      }
     }
     return spots;
   }
@@ -73,7 +82,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.4,
                         child: _history.isEmpty
-                            ? Center(child: Text('No data to display'))
+                            ? Center(
+                                child: Text(
+                                  loc.noHistoryData,
+                                  style: const TextStyle(
+                                      fontSize: 16, color: Colors.grey),
+                                ),
+                              )
                             : LineChart(
                                 LineChartData(
                                   gridData: FlGridData(
@@ -113,7 +128,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                       border:
                                           Border.all(color: Colors.black12)),
                                   minX: 0,
-                                  maxX: _history.length.toDouble() - 1,
+                                  maxX: _history.length > 0
+                                      ? _history.length.toDouble() - 1
+                                      : 0,
                                   minY: 15,
                                   maxY: 35,
                                   lineBarsData: [
@@ -157,45 +174,69 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 ),
               ),
               const SizedBox(height: 8),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _history.length,
-                itemBuilder: (context, index) {
-                  final entry = _history[index].split(': ');
-                  final date = entry[0].substring(0, 10);
-                  final details = entry[1];
-                  return Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                    margin:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    color: Colors.white,
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.all(12),
-                      title: Text(
-                        details,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500),
+              _history.isEmpty
+                  ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          loc.noHistoryData,
+                          style:
+                              TextStyle(fontSize: 16, color: Colors.grey[600]),
+                        ),
                       ),
-                      subtitle: Text(
-                        date,
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                      ),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: () async {
-                          final prefs = await SharedPreferences.getInstance();
-                          _history.removeAt(index);
-                          await prefs.setStringList('bmi_history', _history);
-                          setState(() {});
-                        },
-                      ),
+                    )
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: _history.length,
+                      itemBuilder: (context, index) {
+                        try {
+                          final entry = _history[index].split(': ');
+                          if (entry.length > 1) {
+                            final date = entry[0].substring(0, 10);
+                            final details = entry[1];
+                            return Card(
+                              elevation: 4,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 16),
+                              color: Colors.white,
+                              child: ListTile(
+                                contentPadding: const EdgeInsets.all(12),
+                                title: Text(
+                                  details,
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                subtitle: Text(
+                                  date,
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.grey[600]),
+                                ),
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.delete,
+                                      color: Colors.red),
+                                  onPressed: () async {
+                                    final prefs =
+                                        await SharedPreferences.getInstance();
+                                    _history.removeAt(index);
+                                    await prefs.setStringList(
+                                        'bmi_history', _history);
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            );
+                          }
+                          return const SizedBox.shrink(); // Trả về rỗng nếu lỗi
+                        } catch (e) {
+                          print('Error at index $index: $e');
+                          return const SizedBox.shrink();
+                        }
+                      },
                     ),
-                  );
-                },
-              ),
             ],
           ),
         ),

@@ -11,7 +11,8 @@ class ResultScreen extends StatelessWidget {
   Future<void> _saveToHistory() async {
     final prefs = await SharedPreferences.getInstance();
     List<String> history = prefs.getStringList('bmi_history') ?? [];
-    String entry = '${DateTime.now().toIso8601String()}: BMI $bmi, Weight $weight kg';
+    String entry =
+        '${DateTime.now().toIso8601String()}: BMI $bmi, Weight $weight kg';
     history.add(entry);
     prefs.setStringList('bmi_history', history);
   }
@@ -48,14 +49,18 @@ class ResultScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('BMI: ${bmi.toStringAsFixed(1)}', style: TextStyle(fontSize: 24, color: color)),
+            Text('BMI: ${bmi.toStringAsFixed(1)}',
+                style: TextStyle(fontSize: 24, color: color)),
             const SizedBox(height: 20),
             Text(category, style: TextStyle(fontSize: 20, color: color)),
             const SizedBox(height: 20),
-            Text(loc.advice, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(loc.advice,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             Text(advice, style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 20),
-            Text(loc.weightChange + '$weight kg', style: const TextStyle(fontSize: 16)), // Theo dõi cân nặng
+            Text(loc.weightChange + '$weight kg',
+                style: const TextStyle(fontSize: 16)), // Theo dõi cân nặng
             ElevatedButton(
               onPressed: () => Navigator.pop(context),
               child: Text(loc.back),

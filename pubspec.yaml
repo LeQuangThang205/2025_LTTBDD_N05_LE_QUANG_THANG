@@ -29,4 +29,5 @@ flutter:
         - asset: fonts/Roboto-Regular.ttf
   assets:
     - assets/images/home.jpg
+    - assets/images/logo.png
   # Thêm các assets khác nếu có (như từ ResultScreen)

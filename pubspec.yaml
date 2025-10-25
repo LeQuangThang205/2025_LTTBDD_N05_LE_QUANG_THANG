@@ -12,22 +12,27 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.20.2
-  fl_chart: ^1.1.0
-  shared_preferences: ^2.3.2 # Lưu lịch sử
-  share_plus: ^10.0.0 # Chia sẻ kết quả
+  fl_chart: ^1.1.1
+  shared_preferences: ^2.3.2
+  share_plus: ^12.0.1
+  firebase_core: 4.2.0
+  cloud_firestore: 6.0.3
+  firebase_auth: 6.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0 # Cập nhật nếu cần
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true
+  generate: true # ⚠️ Chỉ cần dòng này thôi!
+
+  assets:
+    - assets/images/home.jpg
+    - assets/images/logo.png
+
   fonts:
     - family: Roboto
       fonts:
         - asset: fonts/Roboto-Regular.ttf
-  assets:
-    - assets/images/home.jpg
-    - assets/images/logo.png
-  # Thêm các assets khác nếu có (như từ ResultScreen)

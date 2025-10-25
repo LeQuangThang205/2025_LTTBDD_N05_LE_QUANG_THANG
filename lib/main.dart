@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'screens/splash_screen.dart';
+import 'l10n/app_localizations.dart';
 import 'screens/home_screen.dart';
+import 'screens/result_screen.dart';
 import 'screens/history_screen.dart';
 import 'screens/about_screen.dart';
-import 'l10n/app_localizations.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -18,9 +17,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale _locale = const Locale('en');
+  Locale _locale = const Locale('vi');
 
-  void setLocale(Locale locale) {
+  void _changeLocale(Locale locale) {
     setState(() {
       _locale = locale;
     });
@@ -29,22 +28,21 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'BMI Calculator',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      title: 'BMI App',
+      debugShowCheckedModeBanner: false,
       locale: _locale,
-      supportedLocales: const [Locale('en'), Locale('vi')],
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+      supportedLocales: const [
+        Locale('en'),
+        Locale('vi'),
       ],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
       routes: {
-        '/home': (context) => HomeScreen(onLocaleChange: setLocale),
-        '/history': (context) => HistoryScreen(), // Bỏ const
-        '/about': (context) => AboutScreen(onLocaleChange: setLocale),
+        '/home': (context) => HomeScreen(onLocaleChange: _changeLocale),
+        '/result': (context) => const ResultScreen(bmi: 0, weight: 0),
+        '/history': (context) => const HistoryScreen(),
+        '/about': (context) => const AboutScreen(),
       },
-      home: SplashScreen(onLocaleChange: setLocale),
+      home: HomeScreen(onLocaleChange: _changeLocale),
     );
   }
 }

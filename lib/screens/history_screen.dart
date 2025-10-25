@@ -4,6 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../l10n/app_localizations.dart';
 
 class HistoryScreen extends StatefulWidget {
+  final Function(Locale)? onLocaleChange;
+  const HistoryScreen({super.key, this.onLocaleChange});
+
   @override
   _HistoryScreenState createState() => _HistoryScreenState();
 }
@@ -32,8 +35,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
         if (parts.length > 1) {
           final bmiPart = parts[1].split(', ')[0].split(' ');
           if (bmiPart.length > 1) {
-            final bmi = double.tryParse(bmiPart[1].replaceAll(',', '')) ?? 0.0;
-            spots.add(FlSpot(i.toDouble(), bmi));
+            final bmiString = bmiPart[1].replaceAll(',', '');
+            final bmi = double.tryParse(bmiString) ?? 0.0;
+            if (bmi > 0) {
+              spots.add(FlSpot(i.toDouble(), bmi));
+            }
           }
         }
       } catch (e) {
@@ -43,9 +49,18 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return spots;
   }
 
+  void _updateLocale(Locale newLocale) {
+    if (widget.onLocaleChange != null) {
+      widget.onLocaleChange!(newLocale);
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context);
+    if (loc == null)
+      return const SizedBox.shrink(); // Hành vi fallback nếu loc null
     return Scaffold(
       appBar: AppBar(
         title: Text(loc.history,
@@ -53,6 +68,29 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 color: Colors.white, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.blue[700],
         elevation: 4,
+        actions: [
+          if (widget.onLocaleChange != null)
+            DropdownButton<Locale>(
+              value: Localizations.localeOf(context),
+              dropdownColor: Colors.blue[700],
+              style: const TextStyle(color: Colors.white),
+              items: const [
+                DropdownMenuItem(
+                  value: Locale('en'),
+                  child: Text('EN', style: TextStyle(color: Colors.white)),
+                ),
+                DropdownMenuItem(
+                  value: Locale('vi'),
+                  child: Text('VI', style: TextStyle(color: Colors.white)),
+                ),
+              ],
+              onChanged: (Locale? newLocale) {
+                if (newLocale != null) {
+                  _updateLocale(newLocale);
+                }
+              },
+            ),
+        ],
       ),
       body: Container(
         color: Colors.grey[100],
@@ -230,7 +268,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               ),
                             );
                           }
-                          return const SizedBox.shrink(); // Trả về rỗng nếu lỗi
+                          return const SizedBox.shrink();
                         } catch (e) {
                           print('Error at index $index: $e');
                           return const SizedBox.shrink();

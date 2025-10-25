@@ -1,150 +1,489 @@
 import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart' as intl;
 
-class AppLocalizations {
-  final Locale locale;
-  AppLocalizations(this.locale);
+import 'app_localizations_en.dart';
+import 'app_localizations_vi.dart';
 
-  static AppLocalizations of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
+// ignore_for_file: type=lint
+
+/// Callers can lookup localized strings with an instance of AppLocalizations
+/// returned by `AppLocalizations.of(context)`.
+///
+/// Applications need to include `AppLocalizations.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
+///
+/// ```dart
+/// import 'l10n/app_localizations.dart';
+///
+/// return MaterialApp(
+///   localizationsDelegates: AppLocalizations.localizationsDelegates,
+///   supportedLocales: AppLocalizations.supportedLocales,
+///   home: MyApplicationHome(),
+/// );
+/// ```
+///
+/// ## Update pubspec.yaml
+///
+/// Please make sure to update your pubspec.yaml to include the following
+/// packages:
+///
+/// ```yaml
+/// dependencies:
+///   # Internationalization support.
+///   flutter_localizations:
+///     sdk: flutter
+///   intl: any # Use the pinned version from flutter_localizations
+///
+///   # Rest of dependencies
+/// ```
+///
+/// ## iOS Applications
+///
+/// iOS applications define key application metadata, including supported
+/// locales, in an Info.plist file that is built into the application bundle.
+/// To configure the locales supported by your app, you’ll need to edit this
+/// file.
+///
+/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// Then, in the Project Navigator, open the Info.plist file under the Runner
+/// project’s Runner folder.
+///
+/// Next, select the Information Property List item, select Add Item from the
+/// Editor menu, then select Localizations from the pop-up menu.
+///
+/// Select and expand the newly-created Localizations item then, for each
+/// locale your application supports, add a new item and select the locale
+/// you wish to add from the pop-up menu in the Value field. This list should
+/// be consistent with the languages listed in the AppLocalizations.supportedLocales
+/// property.
+abstract class AppLocalizations {
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+
+  final String localeName;
+
+  static AppLocalizations? of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
-  static Future<AppLocalizations> load(Locale locale) async {
-    return SynchronousFuture<AppLocalizations>(AppLocalizations(locale));
-  }
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
-  // Các khóa hiện có (đã có trước)
-  String get appTitle =>
-      locale.languageCode == 'vi' ? 'Tính BMI' : 'BMI Calculator';
-  String get height =>
-      locale.languageCode == 'vi' ? 'Chiều cao (cm)' : 'Height (cm)';
-  String get weight =>
-      locale.languageCode == 'vi' ? 'Cân nặng (kg)' : 'Weight (kg)';
-  String get age => locale.languageCode == 'vi' ? 'Tuổi' : 'Age';
-  String get calculate =>
-      locale.languageCode == 'vi' ? 'Tính toán' : 'Calculate';
-  String get result => locale.languageCode == 'vi' ? 'Kết quả' : 'Result';
-  String get underweight =>
-      locale.languageCode == 'vi' ? 'Thiếu cân' : 'Underweight';
-  String get normal => locale.languageCode == 'vi' ? 'Bình thường' : 'Normal';
-  String get overweight =>
-      locale.languageCode == 'vi' ? 'Thừa cân' : 'Overweight';
-  String get obese => locale.languageCode == 'vi' ? 'Béo phì' : 'Obese';
-  String get back => locale.languageCode == 'vi' ? 'Quay lại' : 'Back';
-  String get history => locale.languageCode == 'vi' ? 'Lịch sử' : 'History';
-  String get trendChart =>
-      locale.languageCode == 'vi' ? 'Biểu đồ xu hướng' : 'Trend Chart';
-  String get advice =>
-      locale.languageCode == 'vi' ? 'Gợi ý cá nhân hóa' : 'Personalized Advice';
-  String get weightTrack =>
-      locale.languageCode == 'vi' ? 'Theo dõi cân nặng' : 'Weight Tracking';
-  String get eatHealthy => locale.languageCode == 'vi'
-      ? 'Ăn uống lành mạnh, tăng calo'
-      : 'Eat healthy, increase calories';
-  String get maintain => locale.languageCode == 'vi'
-      ? 'Duy trì lối sống cân bằng'
-      : 'Maintain balanced lifestyle';
-  String get exerciseMore => locale.languageCode == 'vi'
-      ? 'Tập luyện nhiều hơn, giảm calo'
-      : 'Exercise more, reduce calories';
-  String get consultDoctor => locale.languageCode == 'vi'
-      ? 'Tư vấn bác sĩ, chế độ giảm cân nghiêm ngặt'
-      : 'Consult doctor, strict diet';
-  String get weightChange =>
-      locale.languageCode == 'vi' ? 'Thay đổi cân nặng: ' : 'Weight Change: ';
-  String get gender => locale.languageCode == 'vi' ? 'Giới tính' : 'Gender';
-  String get male => locale.languageCode == 'vi' ? 'Nam' : 'Male';
-  String get female => locale.languageCode == 'vi' ? 'Nữ' : 'Female';
-  String get noHistoryData => locale.languageCode == 'vi'
-      ? 'Không có dữ liệu lịch sử'
-      : 'No history data';
+  /// A list of this localizations delegate's supported locales.
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('vi')
+  ];
 
-  // Khóa cho trang About (đã có)
-  String get aboutTitle =>
-      locale.languageCode == 'vi' ? 'Về Chúng Tôi' : 'About Us';
-  String get aboutDescription => locale.languageCode == 'vi'
-      ? 'BMI Calculator App là một dự án được phát triển với tình yêu dành cho sức khỏe cộng đồng. Chúng tôi cam kết mang đến một công cụ đơn giản, hiệu quả để giúp bạn theo dõi và cải thiện lối sống của mình.'
-      : 'BMI Calculator App is a labor of love dedicated to promoting community health. We are committed to providing a simple, effective tool to help you track and enhance your lifestyle.';
-  String get aboutTeam =>
-      locale.languageCode == 'vi' ? 'Đội Ngũ Phát Triển' : 'Development Team';
-  String get aboutTeamDetails => locale.languageCode == 'vi'
-      ? 'Đội ngũ của chúng tôi bao gồm những lập trình viên đam mê và chuyên gia sức khỏe. Với sự kết hợp giữa công nghệ hiện đại và kiến thức y khoa, chúng tôi nỗ lực tạo ra một ứng dụng đáng tin cậy và thân thiện.'
-      : 'Our team consists of passionate developers and health experts. Combining cutting-edge technology with medical knowledge, we strive to build a reliable and user-friendly app.';
-  String get aboutContact =>
-      locale.languageCode == 'vi' ? 'Liên Hệ Với Chúng Tôi' : 'Contact Us';
-  String get aboutContactDetails => locale.languageCode == 'vi'
-      ? 'Bạn có ý kiến hoặc câu hỏi? Hãy gửi email cho chúng tôi tại 23010236@st.phenikaa-uni.edu.vn hoặc theo dõi chúng tôi trên GitHub để cập nhật tin tức mới nhất!'
-      : 'Have feedback or questions? Reach out to us at 23010236@st.phenikaa-uni.edu.vn or follow us on GitHub for the latest updates!';
+  /// No description provided for @appTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'BMI Calculator App'**
+  String get appTitle;
 
-  // Thêm thông tin phát triển
-  String get developerInfo => locale.languageCode == 'vi'
-      ? 'Thông Tin Phát Triển'
-      : 'Developer Information';
-  String get developerDetails => locale.languageCode == 'vi'
-      ? 'Ứng dụng được phát triển bởi:\n- Tên: Lê Quang Thắng\n- Mã sinh viên: 23010236'
-      : 'Developed by:\n- Name: Lê Quang Thắng\n- Student ID: 23010236';
+  /// No description provided for @height.
+  ///
+  /// In en, this message translates to:
+  /// **'Height'**
+  String get height;
 
-  // Thêm nội dung từ README.md
-  String get appInfoTitle => locale.languageCode == 'vi'
-      ? 'Ứng Dụng Tính Chỉ Số BMI'
-      : 'BMI Calculator App';
-  String get appInfoDescription => locale.languageCode == 'vi'
-      ? 'Giữ Vóc Dáng Chuẩn với Máy Theo Dõi BMI của Chúng Tôi! Một công cụ tính và theo dõi Chỉ Số Khối Cơ Thể (BMI) thân thiện, phù hợp cho nam, nữ, trẻ em, thanh thiếu niên và người lớn. Dù bạn đang trên hành trình giảm cân, tăng cơ hay duy trì sức khỏe, ứng dụng này sẽ là người bạn đồng hành tuyệt vời!'
-      : 'Keep Your Weight in Check with Our BMI Tracker! A sleek, user-friendly BMI calculator and tracker designed for men, women, kids, teens, and adults. Whether you\'re on a journey to lose weight, gain muscle, or stay healthy, this app is your perfect companion!';
+  /// No description provided for @weight.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight'**
+  String get weight;
 
-  String get featuresTitle =>
-      locale.languageCode == 'vi' ? '✨ Có Gì Bên Trong?' : '✨ What’s Inside?';
-  String get featuresDescription => locale.languageCode == 'vi'
-      ? 'Khám phá một công cụ mạnh mẽ được gói gọn trong giao diện tối giản nhưng đầy phong cách, giúp bạn bắt đầu lối sống lành mạnh ngay hôm nay. Tính BMI dễ dàng, theo dõi tiến trình và nhận được những gợi ý cá nhân hóa—tất cả miễn phí!\n- Sử Dụng Ngoại Tuyến: Không cần internet? Vẫn dùng được mọi lúc, mọi nơi!\n- Tính BMI Chính Xác: Dựa trên tuổi, giới tính, chiều cao và cân nặng cho kết quả đáng tin cậy.\n- Phân Loại BMI: Xem ngay bạn thuộc nhóm nào với các phân loại chi tiết.\n- Gợi Ý Trọng Lượng Chuẩn: Nhận trọng lượng lý tưởng dựa trên chiều cao của bạn.\n- Linh Hoạt Đơn Vị: Chuyển đổi giữa đơn vị Mỹ (lbs, ft) và Metric (kg, cm).\n- Theo Dõi Lịch Sử: Ghi lại hành trình BMI của bạn với nhật ký chi tiết.\n- Mẹo Sống Khỏe: Lời khuyên cá nhân hóa để hỗ trợ mục tiêu fitness.\n- Chế Độ Giao Diện: Chuyển giữa sáng và tối—chọn phong cách bạn thích!\n- Hỗ Trợ Nhiều Ngôn Ngữ: Tiếng Việt và Tiếng Anh (sắp có thêm!).\n- Thiết Kế Đơn Giản: Giao diện hiện đại, dễ dùng.\n- Hoàn Toàn Miễn Phí: Không chi phí ẩn, chỉ có lợi ích sức khỏe!'
-      : 'Discover a powerful tool packed in a minimalist and elegant interface to kickstart your healthy lifestyle today. Calculate your BMI effortlessly, track your progress, and get personalized insights—all for free!\n- Offline Usage: No internet? No problem! Use it anytime, anywhere.\n- Accurate BMI Calculation: Based on age, gender, height, and weight for precise results.\n- BMI Categories: Instantly see where you stand with detailed classifications.\n- Ideal Weight Suggestions: Get a target weight based on your height.\n- Unit Flexibility: Switch between US (lbs, ft) and Metric (kg, cm) units.\n- History Tracking: Monitor your BMI journey with a detailed history log.\n- Healthy Living Tips: Personalized advice to guide your fitness goals.\n- Theme Options: Toggle between light and dark modes—pick your vibe!\n- Multi-Language Support: Available in English and Vietnamese (more to come!).\n- Clean Design: Simple yet modern UI for a delightful experience.\n- 100% Free: No hidden costs, just pure health benefits!';
+  /// No description provided for @age.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get age;
 
-  String get bmiCategoriesTitle =>
-      locale.languageCode == 'vi' ? '📊 Các Danh Mục BMI' : '📊 BMI Categories';
-  String get bmiCategoriesDescription => locale.languageCode == 'vi'
-      ? '| Phạm Vi       | Phân Loại            |\n|---------------|----------------------|\n| < 16          | Gầy Nặng             |\n| 16 - 17       | Độ Mỏng Trung Bình   |\n| 17 - 18.5     | Độ Mỏng Nhẹ          |\n| 18.5 - 25     | Bình Thường          |\n| 25 - 30       | Thừa Cân             |\n| 30 - 35       | Béo Phì Độ I         |\n| 35 - 40       | Béo Phì Độ II        |\n| > 40          | Béo Phì Độ III       |'
-      : '| Range         | Classification       |\n|---------------|----------------------|\n| < 16          | Severe Thinness      |\n| 16 - 17       | Moderate Thinness    |\n| 17 - 18.5     | Mild Thinness        |\n| 18.5 - 25     | Normal Weight        |\n| 25 - 30       | Overweight           |\n| 30 - 35       | Obesity Class I      |\n| 35 - 40       | Obesity Class II     |\n| > 40          | Obesity Class III    |';
+  /// No description provided for @gender.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get gender;
 
-  String get gettingStartedTitle => locale.languageCode == 'vi'
-      ? '🚀 Hướng Dẫn Bắt Đầu'
-      : '🚀 Getting Started';
-  String get gettingStartedDescription => locale.languageCode == 'vi'
-      ? 'Cách Sử Dụng\n- Nhập Thông Tin: Điền giới tính, tuổi, cân nặng và chiều cao bằng các thanh trượt hoặc số liệu.\n- Tính Toán: Nhấn nút "Tính Toán" để xem BMI và phân loại của bạn.\n- Khám Phá: Kiểm tra trọng lượng lý tưởng, BMR (Tỷ Lệ Chuyển Hóa Cơ Bản), và lời khuyên cá nhân.\n- Theo Dõi Tiến Trình: Xem lịch sử và xu hướng để giữ động lực!\n\nĐiều Kiện Tiền Quyết\n- Flutter SDK: Đảm bảo đã cài Flutter (phiên bản 3.0.0 trở lên).\n- IDE: Sử dụng Android Studio, VS Code hoặc bất kỳ trình soạn thảo nào hỗ trợ Flutter.\n- Phụ Thuộc: Cài đặt các package cần thiết qua pubspec.yaml.\n\nCài Đặt\n- Clone repository:\n  ```text\ngit clone https://github.com/username/bmi_calculator_app.git\n```\n- Vào thư mục dự án:\n  ```text\ncd bmi_calculator_app\n```\n- Cài đặt phụ thuộc:\n  ```text\nflutter pub get\n```\n- Chạy ứng dụng:\n  ```text\nflutter run\n```'
-      : 'How to Use\n- Input Your Details: Enter your gender, age, weight, and height using the intuitive sliders or numeric inputs.\n- Calculate: Hit the "Calculate" button to see your BMI and classification.\n- Explore: Check your ideal weight, BMR (Basal Metabolic Rate), and personalized advice.\n- Track Progress: View your history and trends to stay motivated!\n\nPrerequisites\n- Flutter SDK: Ensure Flutter is installed (v3.0.0 or higher).\n- IDE: Use Android Studio, VS Code, or any Flutter-compatible editor.\n- Dependencies: Install required packages via pubspec.yaml.\n\nInstallation\n- Clone repository:\n  ```text\ngit clone https://github.com/username/bmi_calculator_app.git\n```\n- Navigate to the project folder:\n  ```text\ncd bmi_calculator_app\n```\n- Install dependencies:\n  ```text\nflutter pub get\n```\n- Run the app:\n  ```text\nflutter run\n```';
+  /// No description provided for @male.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get male;
 
-  String get techStackTitle =>
-      locale.languageCode == 'vi' ? '🛠️ Công Nghệ Sử Dụng' : '🛠️ Tech Stack';
-  String get techStackDescription => locale.languageCode == 'vi'
-      ? 'Framework: Flutter (Dart)\nĐa Ngôn Ngữ: intl cho hỗ trợ nhiều ngôn ngữ\nThư Viện UI: fl_chart cho biểu đồ, animation tùy chỉnh\nLưu Trữ: shared_preferences để theo dõi lịch sử\nChia Sẻ: share_plus để chia sẻ kết quả\nTài Nguyên: Hình ảnh tùy chỉnh (ví dụ: home.jpg) cho nền đẹp mắt'
-      : 'Framework: Flutter (Dart)\nLocalization: intl for multi-language support\nUI Libraries: fl_chart for charts, custom animations\nStorage: shared_preferences for history tracking\nSharing: share_plus for result sharing\nAssets: Custom images (e.g., home.jpg) for a stunning background';
+  /// No description provided for @female.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get female;
 
-  String get customizationTitle =>
-      locale.languageCode == 'vi' ? '🎨 Tùy Chỉnh' : '🎨 Customization';
-  String get customizationDescription => locale.languageCode == 'vi'
-      ? 'Thêm Cá Tính: Thay assets/images/home.jpg bằng hình ảnh chủ đề fitness của bạn (kích thước đề xuất: 1080x1920px).\nLogo: Thêm logo splash screen trong assets/images/splash_logo.png (1024x1024px).\nChủ Đề: Chỉnh sửa ThemeData trong main.dart để phù hợp sở thích.'
-      : 'Add Your Touch: Replace assets/images/home.jpg with your own fitness-themed image (recommended size: 1080x1920px).\nLogo: Add a splash screen logo in assets/images/splash_logo.png (1024x1024px).\nThemes: Modify ThemeData in main.dart to match your preference.';
+  /// No description provided for @calculateNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculate Now'**
+  String get calculateNow;
 
-  String get healthJourneyTitle => locale.languageCode == 'vi'
-      ? '🌱 Hành Trình Sức Khỏe Của Bạn'
-      : '🌱 Your Health Journey';
-  String get healthJourneyDescription => locale.languageCode == 'vi'
-      ? 'Hãy bắt đầu ngay hôm nay với BMI Calculator App! Theo dõi chỉ số BMI, nhận lời khuyên hữu ích, và chia sẻ tiến trình với bạn bè. Nếu bạn có ý tưởng hay góp ý, đừng ngần ngại mở issue trên GitHub hoặc gửi pull request!\nCập nhật lần cuối: 24/09/2025 - 06:15 PM (+07)\nĐược phát triển với ❤️ bởi Lê Quang Thắng'
-      : 'Start your journey today with BMI Calculator App! Track your BMI, get helpful advice, and share your progress with friends. If you have ideas or feedback, feel free to open an issue on GitHub or send a pull request!\nLast updated: 09/24/2025 - 06:15 PM (+07)\nDeveloped with ❤️ by Lê Quang Thắng';
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// No description provided for @information.
+  ///
+  /// In en, this message translates to:
+  /// **'Information'**
+  String get information;
+
+  /// No description provided for @help.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get help;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// No description provided for @aboutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About App'**
+  String get aboutTitle;
+
+  /// No description provided for @aboutDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'This app helps you track your BMI and maintain a healthier lifestyle.'**
+  String get aboutDescription;
+
+  /// No description provided for @aboutTeam.
+  ///
+  /// In en, this message translates to:
+  /// **'Development Team'**
+  String get aboutTeam;
+
+  /// No description provided for @aboutTeamDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Developed by passionate IT students who love health and technology.'**
+  String get aboutTeamDetails;
+
+  /// No description provided for @developerInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer Info'**
+  String get developerInfo;
+
+  /// No description provided for @developerDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Author: Le Quang Thang - Faculty of Information Technology.'**
+  String get developerDetails;
+
+  /// No description provided for @aboutContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get aboutContact;
+
+  /// No description provided for @aboutContactDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Email: yourname@gmail.com'**
+  String get aboutContactDetails;
+
+  /// No description provided for @appInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'App Information'**
+  String get appInfoTitle;
+
+  /// No description provided for @appInfoDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Version 1.0.0 - Built with Flutter.'**
+  String get appInfoDescription;
+
+  /// No description provided for @featuresTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Main Features'**
+  String get featuresTitle;
+
+  /// No description provided for @featuresDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculate BMI, track your health, and more.'**
+  String get featuresDescription;
+
+  /// No description provided for @bmiCategoriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'BMI Categories'**
+  String get bmiCategoriesTitle;
+
+  /// No description provided for @bmiCategoriesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Includes: Underweight, Normal, Overweight, Obese.'**
+  String get bmiCategoriesDescription;
+
+  /// No description provided for @gettingStartedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Getting Started'**
+  String get gettingStartedTitle;
+
+  /// No description provided for @gettingStartedDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your data to calculate BMI quickly.'**
+  String get gettingStartedDescription;
+
+  /// No description provided for @techStackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Technology Stack'**
+  String get techStackTitle;
+
+  /// No description provided for @techStackDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Flutter, Dart, Firebase, Material Design.'**
+  String get techStackDescription;
+
+  /// No description provided for @customizationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Customization'**
+  String get customizationTitle;
+
+  /// No description provided for @customizationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Easily switch between English and Vietnamese.'**
+  String get customizationDescription;
+
+  /// No description provided for @healthJourneyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Health Journey'**
+  String get healthJourneyTitle;
+
+  /// No description provided for @healthJourneyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your progress and improve your health.'**
+  String get healthJourneyDescription;
+
+  /// No description provided for @history.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get history;
+
+  /// No description provided for @trendChart.
+  ///
+  /// In en, this message translates to:
+  /// **'BMI Trend Chart'**
+  String get trendChart;
+
+  /// No description provided for @noHistoryData.
+  ///
+  /// In en, this message translates to:
+  /// **'No history data available'**
+  String get noHistoryData;
+
+  /// No description provided for @unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknown;
+
+  /// No description provided for @result.
+  ///
+  /// In en, this message translates to:
+  /// **'Result'**
+  String get result;
+
+  /// No description provided for @bmiResultTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your BMI Result'**
+  String get bmiResultTitle;
+
+  /// No description provided for @bmiValue.
+  ///
+  /// In en, this message translates to:
+  /// **'BMI Value'**
+  String get bmiValue;
+
+  /// No description provided for @category.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get category;
+
+  /// No description provided for @advice.
+  ///
+  /// In en, this message translates to:
+  /// **'Advice'**
+  String get advice;
+
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// No description provided for @underweight.
+  ///
+  /// In en, this message translates to:
+  /// **'Underweight'**
+  String get underweight;
+
+  /// No description provided for @normal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get normal;
+
+  /// No description provided for @overweight.
+  ///
+  /// In en, this message translates to:
+  /// **'Overweight'**
+  String get overweight;
+
+  /// No description provided for @obese.
+  ///
+  /// In en, this message translates to:
+  /// **'Obese'**
+  String get obese;
+
+  /// No description provided for @eatHealthy.
+  ///
+  /// In en, this message translates to:
+  /// **'You should eat more nutritious food!'**
+  String get eatHealthy;
+
+  /// No description provided for @maintain.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep up your healthy lifestyle!'**
+  String get maintain;
+
+  /// No description provided for @exerciseMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercise more regularly!'**
+  String get exerciseMore;
+
+  /// No description provided for @consultDoctor.
+  ///
+  /// In en, this message translates to:
+  /// **'Consider consulting a doctor!'**
+  String get consultDoctor;
+
+  /// No description provided for @weightChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Your current weight: '**
+  String get weightChange;
+
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @register.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get register;
+
+  /// No description provided for @changeLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Language'**
+  String get changeLanguage;
+
+  /// No description provided for @welcomeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to the BMI Calculator App!'**
+  String get welcomeMessage;
+
+  /// No description provided for @calculateBmi.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculate BMI'**
+  String get calculateBmi;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
-  Future<AppLocalizations> load(Locale locale) => AppLocalizations.load(locale);
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture<AppLocalizations>(lookupAppLocalizations(locale));
+  }
 
   @override
-  bool isSupported(Locale locale) => ['en', 'vi'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'vi'].contains(locale.languageCode);
 
   @override
-  bool shouldReload(_) => false;
+  bool shouldReload(_AppLocalizationsDelegate old) => false;
+}
+
+AppLocalizations lookupAppLocalizations(Locale locale) {
+
+
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'en': return AppLocalizationsEn();
+    case 'vi': return AppLocalizationsVi();
+  }
+
+  throw FlutterError(
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
 }

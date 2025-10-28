@@ -76,5 +76,4 @@ Chủ Đề: Chỉnh sửa ThemeData trong main.dart để phù hợp sở thíc
 
 ## 🌱 Hành Trình Sức Khỏe Của Bạn
 Hãy bắt đầu ngay hôm nay với BMI Calculator App! Theo dõi chỉ số BMI, nhận lời khuyên hữu ích, và chia sẻ tiến trình với bạn bè. Nếu bạn có ý tưởng hay góp ý, đừng ngần ngại mở issue trên GitHub hoặc gửi pull request!
-Cập nhật lần cuối: 24/09/2025 - 06:15 PM (+07)
 Được phát triển với ❤️ bởi [LÊ QUANG THẮNG]

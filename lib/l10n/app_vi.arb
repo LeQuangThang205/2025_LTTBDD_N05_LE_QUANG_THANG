@@ -98,6 +98,19 @@
   "invalidInput": "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.",
   "inputHeightWeight": "Vui lòng nhập chiều cao và cân nặng hợp lệ.",
   "calculatedBmi": "Chỉ số BMI đã được tính toán!",
-  "calculateBmi": "Tính chỉ số BMI"
+  "calculateBmi": "Tính chỉ số BMI",
+  "english": "Tiếng Anh",
+  "vietnamese": "Tiếng Việt"
+  ,
+"profileTitle": "Hồ sơ cá nhân",
+"name": "Họ và tên",
+"email": "Email",
+"phone": "Số điện thoại",
+"gender": "Giới tính",
+"height": "Chiều cao (cm)",
+"save": "Lưu",
+"male": "Nam",
+"female": "Nữ"
+
 
 }

@@ -84,6 +84,19 @@
   "consultDoctor": "Consider consulting a doctor!",
   "home": "Home",
   "history": "History",
-  "about": "About"
+  "about": "About",
+  "english": "English",
+  "vietnamese": "Vietnamese"
+  ,
+"profileTitle": "Profile",
+"name": "Name",
+"email": "Email",
+"phone": "Phone",
+"gender": "Gender",
+"height": "Height (cm)",
+"save": "Save",
+"male": "Male",
+"female": "Female"
+
 
 }

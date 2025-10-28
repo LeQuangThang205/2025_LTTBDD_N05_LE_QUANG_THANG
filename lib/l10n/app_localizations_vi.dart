@@ -12,7 +12,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get appTitle => 'Ứng dụng Tính BMI';
 
   @override
-  String get height => 'Chiều cao';
+  String get height => 'Chiều cao (cm)';
 
   @override
   String get weight => 'Cân nặng';
@@ -187,4 +187,25 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get calculateBmi => 'Tính chỉ số BMI';
+
+  @override
+  String get english => 'Tiếng Anh';
+
+  @override
+  String get vietnamese => 'Tiếng Việt';
+
+  @override
+  String get profileTitle => 'Hồ sơ cá nhân';
+
+  @override
+  String get name => 'Họ và tên';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get phone => 'Số điện thoại';
+
+  @override
+  String get save => 'Lưu';
 }

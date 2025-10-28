@@ -31,41 +31,36 @@ class _HistoryScreenState extends State<HistoryScreen> {
     List<FlSpot> spots = [];
     for (int i = 0; i < _history.length; i++) {
       try {
-        final parts = _history[i].split(': ');
-        if (parts.length > 1) {
-          final bmiPart = parts[1].split(', ')[0].split(' ');
-          if (bmiPart.length > 1) {
-            final bmiString = bmiPart[1].replaceAll(',', '');
-            final bmi = double.tryParse(bmiString) ?? 0.0;
-            if (bmi > 0) {
-              spots.add(FlSpot(i.toDouble(), bmi));
-            }
-          }
+        final entry = _history[i];
+        // Format: "2025-10-23 12:00:00: BMI 22.5, Normal"
+        final bmiMatch = RegExp(r'BMI\s([\d.]+)').firstMatch(entry);
+        if (bmiMatch != null) {
+          final bmi = double.tryParse(bmiMatch.group(1) ?? '0') ?? 0.0;
+          spots.add(FlSpot(i.toDouble(), bmi));
         }
       } catch (e) {
-        print('Error parsing BMI at index $i: $e');
+        debugPrint('Error parsing BMI at index $i: $e');
       }
     }
     return spots;
   }
 
   void _updateLocale(Locale newLocale) {
-    if (widget.onLocaleChange != null) {
-      widget.onLocaleChange!(newLocale);
-    }
+    widget.onLocaleChange?.call(newLocale);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context);
-    if (loc == null)
-      return const SizedBox.shrink(); // Hành vi fallback nếu loc null
+    final loc = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(loc.history,
-            style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold)),
+        title: Text(
+          loc.history,
+          style:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.blue[700],
         elevation: 4,
         actions: [
@@ -74,6 +69,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               value: Localizations.localeOf(context),
               dropdownColor: Colors.blue[700],
               style: const TextStyle(color: Colors.white),
+              underline: const SizedBox(),
               items: const [
                 DropdownMenuItem(
                   value: Locale('en'),
@@ -85,9 +81,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 ),
               ],
               onChanged: (Locale? newLocale) {
-                if (newLocale != null) {
-                  _updateLocale(newLocale);
-                }
+                if (newLocale != null) _updateLocale(newLocale);
               },
             ),
         ],
@@ -144,11 +138,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                         reservedSize: 22,
                                         getTitlesWidget: (value, meta) {
                                           final index = value.toInt();
-                                          return index < _history.length
-                                              ? Text(_history[index]
-                                                  .split(':')[0]
-                                                  .substring(0, 10))
-                                              : const Text('');
+                                          if (index >= _history.length)
+                                            return const Text('');
+                                          final entry = _history[index];
+                                          final date = entry.split(' ')[0];
+                                          return Text(
+                                            date,
+                                            style: const TextStyle(
+                                                fontSize: 10,
+                                                color: Colors.black54),
+                                          );
                                         },
                                       ),
                                     ),
@@ -166,7 +165,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                       border:
                                           Border.all(color: Colors.black12)),
                                   minX: 0,
-                                  maxX: _history.length > 0
+                                  maxX: _history.isNotEmpty
                                       ? _history.length.toDouble() - 1
                                       : 0,
                                   minY: 15,
@@ -229,48 +228,47 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       itemCount: _history.length,
                       itemBuilder: (context, index) {
                         try {
-                          final entry = _history[index].split(': ');
-                          if (entry.length > 1) {
-                            final date = entry[0].substring(0, 10);
-                            final details = entry[1];
-                            return Card(
-                              elevation: 4,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12)),
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 16),
-                              color: Colors.white,
-                              child: ListTile(
-                                contentPadding: const EdgeInsets.all(12),
-                                title: Text(
-                                  details,
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                subtitle: Text(
-                                  date,
-                                  style: TextStyle(
-                                      fontSize: 14, color: Colors.grey[600]),
-                                ),
-                                trailing: IconButton(
-                                  icon: const Icon(Icons.delete,
-                                      color: Colors.red),
-                                  onPressed: () async {
-                                    final prefs =
-                                        await SharedPreferences.getInstance();
-                                    _history.removeAt(index);
-                                    await prefs.setStringList(
-                                        'bmi_history', _history);
-                                    setState(() {});
-                                  },
-                                ),
+                          final entry = _history[index];
+                          final parts = entry.split(': ');
+                          final date =
+                              parts.isNotEmpty ? parts[0].substring(0, 10) : '';
+                          final details =
+                              parts.length > 1 ? parts[1] : loc.unknown;
+                          return Card(
+                            elevation: 4,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)),
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 16),
+                            color: Colors.white,
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.all(12),
+                              title: Text(
+                                details,
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
                               ),
-                            );
-                          }
-                          return const SizedBox.shrink();
+                              subtitle: Text(
+                                date,
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.grey[600]),
+                              ),
+                              trailing: IconButton(
+                                icon:
+                                    const Icon(Icons.delete, color: Colors.red),
+                                onPressed: () async {
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+                                  _history.removeAt(index);
+                                  await prefs.setStringList(
+                                      'bmi_history', _history);
+                                  setState(() {});
+                                },
+                              ),
+                            ),
+                          );
                         } catch (e) {
-                          print('Error at index $index: $e');
+                          debugPrint('Error at index $index: $e');
                           return const SizedBox.shrink();
                         }
                       },

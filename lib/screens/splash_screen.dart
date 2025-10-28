@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'login_screen.dart';
 import 'home_screen.dart';
 
@@ -16,31 +17,52 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _checkLoginStatus();
+    _initializeFirebaseAndCheckUser();
   }
 
-  Future<void> _checkLoginStatus() async {
-    await Future.delayed(const Duration(seconds: 2)); // hiệu ứng load 2s
-    final user = FirebaseAuth.instance.currentUser;
+  /// 🔹 Khởi tạo Firebase và kiểm tra trạng thái đăng nhập
+  Future<void> _initializeFirebaseAndCheckUser() async {
+    try {
+      // Đảm bảo Firebase đã được khởi tạo
+      await Firebase.initializeApp();
 
-    if (!mounted) return;
+      // Tạm dừng 2 giây để hiển thị logo (hiệu ứng splash)
+      await Future.delayed(const Duration(seconds: 2));
 
-    if (user != null) {
-      // 🔹 Nếu đã đăng nhập → sang trang Home
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(
-            onLocaleChange: widget.onLocaleChange,
+      // Lấy thông tin user hiện tại
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (!mounted) return;
+
+      // Nếu đã đăng nhập
+      if (user != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(
+              onLocaleChange: widget.onLocaleChange,
+            ),
           ),
+        );
+      } else {
+        // Nếu chưa đăng nhập
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      }
+    } catch (e) {
+      // Nếu có lỗi Firebase, hiển thị thông báo nhẹ và cho phép thử lại
+      debugPrint("🔥 Lỗi Firebase khởi tạo: $e");
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Không thể kết nối Firebase. Vui lòng thử lại.'),
+          backgroundColor: Colors.redAccent,
         ),
       );
-    } else {
-      // 🔹 Nếu chưa đăng nhập → sang trang Login
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
+      await Future.delayed(const Duration(seconds: 2));
+      _initializeFirebaseAndCheckUser();
     }
   }
 
@@ -50,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blue, Colors.lightBlueAccent],
+            colors: [Colors.blueAccent, Colors.lightBlueAccent],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -67,10 +89,16 @@ class _SplashScreenState extends State<SplashScreen> {
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
+                  letterSpacing: 1.2,
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               CircularProgressIndicator(color: Colors.white),
+              SizedBox(height: 10),
+              Text(
+                'Đang khởi tạo...',
+                style: TextStyle(color: Colors.white70),
+              ),
             ],
           ),
         ),

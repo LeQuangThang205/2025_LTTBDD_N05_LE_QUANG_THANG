@@ -1,6 +1,7 @@
 name: bmi_calculator_app
 description: "A BMI Calculator App for mobile programming project."
 publish_to: "none"
+
 version: 1.0.0+1
 
 environment:
@@ -9,15 +10,25 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # 🌐 Hỗ trợ đa ngôn ngữ
   flutter_localizations:
     sdk: flutter
   intl: ^0.20.2
+
+  # 📊 Biểu đồ BMI
   fl_chart: ^1.1.1
+
+  # 💾 Lưu dữ liệu cục bộ
   shared_preferences: ^2.3.2
+
+  # 📤 Chia sẻ kết quả BMI
   share_plus: ^12.0.1
-  firebase_core: 4.2.0
-  cloud_firestore: 6.0.3
-  firebase_auth: 6.1.1
+
+  # 🔥 Firebase
+  firebase_core: ^4.2.0
+  cloud_firestore: ^6.0.3
+  firebase_auth: ^6.1.1
 
 dev_dependencies:
   flutter_test:
@@ -26,7 +37,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  generate: true # ⚠️ Chỉ cần dòng này thôi!
+  generate: true
 
   assets:
     - assets/images/home.jpg
@@ -36,3 +47,9 @@ flutter:
     - family: Roboto
       fonts:
         - asset: fonts/Roboto-Regular.ttf
+
+# 🌍 Đặt cấu hình l10n ở ngoài mục "flutter"
+l10n:
+  arb-dir: lib/l10n
+  template-arb-file: app_en.arb
+  output-localization-file: app_localizations.dart

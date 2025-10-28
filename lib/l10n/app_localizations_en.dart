@@ -12,7 +12,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'BMI Calculator App';
 
   @override
-  String get height => 'Height';
+  String get height => 'Height (cm)';
 
   @override
   String get weight => 'Weight';
@@ -187,4 +187,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get calculateBmi => 'Calculate BMI';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get vietnamese => 'Vietnamese';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get phone => 'Phone';
+
+  @override
+  String get save => 'Save';
 }

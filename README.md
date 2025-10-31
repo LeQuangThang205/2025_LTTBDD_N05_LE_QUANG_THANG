@@ -47,16 +47,16 @@ Phụ Thuộc: Cài đặt các package cần thiết qua pubspec.yaml.
 ## Cài Đặt
 
 Clone repository:
-textgit clone https://github.com/username/bmi_calculator_app.git
+git clone https://github.com/LeQuangThang205/2025_LTTBDD_N05_LE_QUANG_THANG.git
 
 Vào thư mục dự án:
-textcd bmi_calculator_app
+cd bmi_calculator_app
 
 Cài đặt phụ thuộc:
-textflutter pub get
+flutter pub get
 
 Chạy ứng dụng:
-textflutter run
+flutter run
 
 
 ## 🛠️ Công Nghệ Sử Dụng

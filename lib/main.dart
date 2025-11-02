@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'firebase_options.dart'; // ✅ thêm dòng này để lấy cấu hình Firebase tự động
+
 import 'l10n/app_localizations.dart';
 import 'screens/home_screen.dart';
 import 'screens/result_screen.dart';
@@ -8,23 +12,17 @@ import 'screens/about_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/login_screen.dart';
+import 'screens/register_screen.dart'; // 🔹 Thêm dòng này
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // ✅ Khởi tạo Firebase đúng chuẩn từ FlutterFire CLI
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: "AIzaSyDQZBDJMbWAkMBqhy2CBu83K9kDocE1KK4",
-      authDomain: "app-bmi-a67ab.firebaseapp.com",
-      projectId: "app-bmi-a67ab",
-      storageBucket: "app-bmi-a67ab.firebasestorage.app",
-      messagingSenderId: "402704962965",
-      appId: "1:402704962965:web:ddcca632a226be7797d29c",
-      measurementId: "G-4SC1XQBJ85",
-    ),
+    options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -68,6 +66,7 @@ class _MyAppState extends State<MyApp> {
         '/result': (context) => const ResultScreen(bmi: 0, weight: 0),
         '/profile': (context) => const ProfileScreen(),
         '/login': (context) => const LoginScreen(),
+        '/register': (context) => const RegisterScreen(), // 🔹 route đăng ký
       },
       home: const SplashScreen(),
     );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../l10n/app_localizations.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -11,20 +13,74 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  String _name = "Nguyễn Văn A";
+  // Dữ liệu người dùng
+  String _fullName = "Nguyễn Văn A";
   String _email = "user@example.com";
   String _phone = "0123456789";
+  DateTime _birthday = DateTime(2000, 1, 1);
   double _height = 170;
   String _gender = "male";
+
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfile();
+  }
+
+  // 🧩 Hàm tải dữ liệu từ Firestore
+  Future<void> _loadProfile() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      setState(() => _isLoading = false);
+      return;
+    }
+
+    try {
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      if (doc.exists) {
+        final data = doc.data()!;
+        setState(() {
+          _fullName = data['name'] ?? "Nguyễn Văn A";
+          _email = data['email'] ?? "user@example.com";
+          _phone = data['phone'] ?? "0123456789";
+          _height = (data['height'] ?? 170).toDouble();
+          _gender = data['gender'] ?? "male";
+          if (data['birthday'] != null) {
+            try {
+              _birthday = DateTime.parse(data['birthday']);
+            } catch (_) {
+              // Nếu ngày sinh không đúng định dạng ISO thì bỏ qua
+            }
+          }
+        });
+      }
+    } catch (e) {
+      debugPrint("❌ Lỗi khi tải hồ sơ: $e");
+    }
+
+    setState(() => _isLoading = false);
+  }
 
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     final themeColor = Colors.blue.shade600;
 
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(loc.profileTitle ?? "Profile"),
+        title: Text(loc.profileTitle ?? "Hồ sơ"),
         backgroundColor: themeColor,
         centerTitle: true,
       ),
@@ -49,16 +105,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 const SizedBox(height: 20),
 
-                // 🔹 Tên
+                // 🔹 Họ tên
                 TextFormField(
-                  initialValue: _name,
+                  initialValue: _fullName,
                   decoration: InputDecoration(
-                    labelText: loc.name ?? "Name",
+                    labelText: loc.name ?? "Họ và tên",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
+                    prefixIcon: const Icon(Icons.person),
                   ),
-                  onSaved: (value) => _name = value ?? "",
+                  onSaved: (value) => _fullName = value ?? "",
                 ),
                 const SizedBox(height: 15),
 
@@ -70,6 +127,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
+                    prefixIcon: const Icon(Icons.email),
                   ),
                   onSaved: (value) => _email = value ?? "",
                 ),
@@ -79,17 +137,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 TextFormField(
                   initialValue: _phone,
                   decoration: InputDecoration(
-                    labelText: loc.phone ?? "Phone",
+                    labelText: loc.phone ?? "Số điện thoại",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
+                    prefixIcon: const Icon(Icons.phone),
                   ),
                   onSaved: (value) => _phone = value ?? "",
                 ),
                 const SizedBox(height: 15),
 
+                // 🔹 Ngày sinh
+                InkWell(
+                  onTap: _pickBirthday,
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      labelText: "Ngày sinh",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      prefixIcon: const Icon(Icons.cake),
+                    ),
+                    child: Text(
+                      "${_birthday.day}/${_birthday.month}/${_birthday.year}",
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
                 // 🔹 Chiều cao
-                Text("${loc.height ?? "Height"}: ${_height.round()} cm",
+                Text("${loc.height ?? "Chiều cao"}: ${_height.round()} cm",
                     style: const TextStyle(fontSize: 16)),
                 Slider(
                   value: _height,
@@ -102,7 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                 // 🔹 Giới tính
                 Text(
-                  loc.gender,
+                  loc.gender ?? "Giới tính",
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold),
                 ),
@@ -111,49 +189,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ChoiceChip(
-                      label: Text(loc.male),
+                      label: Text(loc.male ?? "Nam"),
                       selected: _gender == 'male',
                       onSelected: (_) => setState(() => _gender = 'male'),
                       selectedColor: themeColor,
                       labelStyle: TextStyle(
-                          color:
-                              _gender == 'male' ? Colors.white : Colors.black),
+                        color: _gender == 'male' ? Colors.white : Colors.black,
+                      ),
                     ),
                     const SizedBox(width: 15),
                     ChoiceChip(
-                      label: Text(loc.female),
+                      label: Text(loc.female ?? "Nữ"),
                       selected: _gender == 'female',
                       onSelected: (_) => setState(() => _gender = 'female'),
                       selectedColor: themeColor,
                       labelStyle: TextStyle(
-                          color: _gender == 'female'
-                              ? Colors.white
-                              : Colors.black),
+                        color:
+                            _gender == 'female' ? Colors.white : Colors.black,
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 30),
 
                 // 🔹 Nút lưu
-                ElevatedButton(
-                  onPressed: () {
-                    _formKey.currentState?.save();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text("Cập nhật thông tin thành công!")),
-                    );
-                  },
+                ElevatedButton.icon(
+                  onPressed: _saveProfile,
+                  icon: const Icon(Icons.save),
+                  label: Text(loc.save ?? "Lưu thông tin"),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: themeColor,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 14, horizontal: 30),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
-                  ),
-                  child: Text(
-                    loc.save ?? "Save",
-                    style: const TextStyle(fontSize: 18, color: Colors.white),
                   ),
                 ),
               ],
@@ -162,5 +231,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  // 🗓 Chọn ngày sinh
+  Future<void> _pickBirthday() async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _birthday,
+      firstDate: DateTime(1950),
+      lastDate: DateTime.now(),
+      locale: const Locale('vi'),
+    );
+    if (picked != null) {
+      setState(() => _birthday = picked);
+    }
+  }
+
+  // 💾 Lưu thông tin vào Firestore
+  Future<void> _saveProfile() async {
+    _formKey.currentState?.save();
+
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Vui lòng đăng nhập trước khi lưu.")),
+      );
+      return;
+    }
+
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        'name': _fullName,
+        'email': _email,
+        'phone': _phone,
+        'birthday': _birthday.toIso8601String(),
+        'height': _height,
+        'gender': _gender,
+        'updatedAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("✅ Cập nhật thông tin thành công!")),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("❌ Lỗi khi lưu: $e")),
+      );
+    }
   }
 }

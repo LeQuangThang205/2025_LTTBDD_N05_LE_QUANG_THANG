@@ -11,10 +11,7 @@ class DefaultFirebaseOptions {
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
-      case TargetPlatform.iOS:
-        return ios;
-      case TargetPlatform.macOS:
-        return macos;
+
       default:
         throw UnsupportedError(
           'Unsupported platform: $defaultTargetPlatform',
@@ -37,24 +34,6 @@ class DefaultFirebaseOptions {
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: "AIzaSyBihP48HXDooHB6wgemCtkMoUry9IQQ9II",
     appId: "1:402704962965:android:308966cfc120415997d29c",
-    messagingSenderId: "402704962965",
-    projectId: "app-bmi-a67ab",
-    storageBucket: "app-bmi-a67ab.firebasestorage.app",
-  );
-
-  // 🍎 iOS (bạn chưa tạo, nên giữ placeholder)
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: "your-ios-api-key",
-    appId: "your-ios-app-id",
-    messagingSenderId: "402704962965",
-    projectId: "app-bmi-a67ab",
-    storageBucket: "app-bmi-a67ab.firebasestorage.app",
-  );
-
-  // 💻 macOS (tùy chọn)
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: "your-macos-api-key",
-    appId: "your-macos-app-id",
     messagingSenderId: "402704962965",
     projectId: "app-bmi-a67ab",
     storageBucket: "app-bmi-a67ab.firebasestorage.app",

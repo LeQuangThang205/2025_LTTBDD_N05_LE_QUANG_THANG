@@ -1,8 +1,12 @@
 # Ứng Dụng Tính Chỉ Số BMI
+
 Giữ Vóc Dáng Chuẩn với Máy Theo Dõi BMI của Chúng Tôi!
 Một công cụ tính và theo dõi Chỉ Số Khối Cơ Thể (BMI) thân thiện, phù hợp cho nam, nữ, trẻ em, thanh thiếu niên và người lớn. Dù bạn đang trên hành trình giảm cân, tăng cơ hay duy trì sức khỏe, ứng dụng này sẽ là người bạn đồng hành tuyệt vời!
+
 ## ✨ Có Gì Bên Trong?
+
 Khám phá một công cụ mạnh mẽ được gói gọn trong giao diện tối giản nhưng đầy phong cách, giúp bạn bắt đầu lối sống lành mạnh ngay hôm nay. Tính BMI dễ dàng, theo dõi tiến trình và nhận được những gợi ý cá nhân hóa—tất cả miễn phí!
+
 ## 🌟 Tính Năng Nổi Bật
 
 Sử Dụng Ngoại Tuyến: Không cần internet? Vẫn dùng được mọi lúc, mọi nơi!
@@ -18,19 +22,24 @@ Thiết Kế Đơn Giản: Giao diện hiện đại, dễ dùng.
 Hoàn Toàn Miễn Phí: Không chi phí ẩn, chỉ có lợi ích sức khỏe!
 
 ## 📊 Các Danh Mục BMI
-| Phạm Vi       | Phân Loại            |
-|---------------|----------------------|
-| < 16          | Gầy Nặng             |
-| 16 - 17       | Độ Mỏng Trung Bình   |
-| 17 - 18.5     | Độ Mỏng Nhẹ          |
-| 18.5 - 25     | Bình Thường          |
-| 25 - 30       | Thừa Cân             |
-| 30 - 35       | Béo Phì Độ I         |
-| 35 - 40       | Béo Phì Độ II        |
-| > 40          | Béo Phì Độ III       |
+
+| Phạm Vi   | Phân Loại          |
+| --------- | ------------------ |
+| < 16      | Gầy Nặng           |
+| 16 - 17   | Độ Mỏng Trung Bình |
+| 17 - 18.5 | Độ Mỏng Nhẹ        |
+| 18.5 - 25 | Bình Thường        |
+| 25 - 30   | Thừa Cân           |
+| 30 - 35   | Béo Phì Độ I       |
+| 35 - 40   | Béo Phì Độ II      |
+| > 40      | Béo Phì Độ III     |
+
 ## 🤔 Chỉ Số BMI Là Gì?
+
 Chỉ Số Khối Cơ Thể (BMI) là một chỉ số đáng tin cậy để đo lượng mỡ trong cơ thể dựa trên chiều cao và cân nặng, áp dụng cho cả nam và nữ. BMI được tính bằng cách lấy cân nặng (kg) chia cho bình phương chiều cao (m), biểu thị bằng kg/m². Ứng dụng này sử dụng tuổi và giới tính để tăng độ chính xác, giúp bạn hiểu rõ hơn về tình trạng sức khỏe của mình.
+
 ## 🚀 Hướng Dẫn Bắt Đầu
+
 Cách Sử Dụng
 
 Nhập Thông Tin: Điền giới tính, tuổi, cân nặng và chiều cao bằng các thanh trượt hoặc số liệu.
@@ -57,7 +66,10 @@ flutter pub get
 
 Chạy ứng dụng:
 flutter run
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6ba6f40 (Update Drawer user name from Firestore)
 
 ## 🛠️ Công Nghệ Sử Dụng
 
@@ -75,5 +87,6 @@ Logo: Thêm logo splash screen trong assets/images/splash_logo.png (1024x1024px)
 Chủ Đề: Chỉnh sửa ThemeData trong main.dart để phù hợp sở thích.
 
 ## 🌱 Hành Trình Sức Khỏe Của Bạn
+
 Hãy bắt đầu ngay hôm nay với BMI Calculator App! Theo dõi chỉ số BMI, nhận lời khuyên hữu ích, và chia sẻ tiến trình với bạn bè. Nếu bạn có ý tưởng hay góp ý, đừng ngần ngại mở issue trên GitHub hoặc gửi pull request!
 Được phát triển với ❤️ bởi [LÊ QUANG THẮNG]

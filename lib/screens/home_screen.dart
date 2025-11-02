@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../l10n/app_localizations.dart';
 import 'result_screen.dart';
 import 'login_screen.dart';
@@ -32,7 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void _logout() {
+  void _logout() async {
+    await FirebaseAuth.instance.signOut();
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => const LoginScreen()),
@@ -44,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     final themeColor = Colors.blue.shade600;
+    final user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
       appBar: AppBar(
@@ -54,6 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: themeColor,
         centerTitle: true,
       ),
+
+      // ✅ Drawer có thể cập nhật tên theo Firestore
       drawer: Drawer(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -63,46 +69,66 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: Column(
           children: [
-            // 🔹 Header có gradient và avatar tròn
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFF1976D2), Color(0xFF64B5F6)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(25),
-                  bottomRight: Radius.circular(25),
-                ),
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 40),
-              width: double.infinity,
-              child: Column(
-                children: const [
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundColor: Colors.white,
-                    child: Icon(Icons.person, size: 50, color: Colors.blue),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    "BMI Calculator App",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+            // Header có gradient, ảnh avatar và tên người dùng
+            StreamBuilder<DocumentSnapshot>(
+              stream: user != null
+                  ? FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(user.uid)
+                      .snapshots()
+                  : null,
+              builder: (context, snapshot) {
+                String name = "BMI Calculator App";
+                if (snapshot.hasData && snapshot.data!.exists) {
+                  final data = snapshot.data!.data() as Map<String, dynamic>;
+                  if (data.containsKey('name') &&
+                      data['name'].toString().trim().isNotEmpty) {
+                    name = data['name'];
+                  }
+                }
+
+                return Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xFF1976D2), Color(0xFF64B5F6)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(25),
+                      bottomRight: Radius.circular(25),
                     ),
                   ),
-                ],
-              ),
+                  padding: const EdgeInsets.symmetric(vertical: 40),
+                  width: double.infinity,
+                  child: Column(
+                    children: [
+                      const CircleAvatar(
+                        radius: 40,
+                        backgroundColor: Colors.white,
+                        child: Icon(Icons.person, size: 50, color: Colors.blue),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        name,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
 
             const SizedBox(height: 10),
 
+            // Các mục menu
             ListTile(
               leading: const Icon(Icons.home, color: Colors.blue),
-              title: Text("Home"),
+              title: const Text("Home"),
               onTap: () => Navigator.pushReplacementNamed(context, '/home'),
             ),
             ListTile(
@@ -135,6 +161,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+
+      // ---------------- BODY ----------------
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -158,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 25),
 
-              // 🔹 Card nhập thông tin BMI
+              // Card nhập thông tin BMI
               Card(
                 elevation: 6,
                 shape: RoundedRectangleBorder(
@@ -170,7 +198,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Chiều cao
                       Text("${loc.height}: ${_height.round()} cm",
                           style: const TextStyle(fontSize: 16)),
                       Slider(
@@ -182,8 +209,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         onChanged: (value) => setState(() => _height = value),
                       ),
                       const SizedBox(height: 15),
-
-                      // Cân nặng
                       Text("${loc.weight}: ${_weight.round()} kg",
                           style: const TextStyle(fontSize: 16)),
                       Slider(
@@ -195,8 +220,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         onChanged: (value) => setState(() => _weight = value),
                       ),
                       const SizedBox(height: 15),
-
-                      // Tuổi
                       Text("${loc.age}: $_age",
                           style: const TextStyle(fontSize: 16)),
                       Slider(
@@ -209,8 +232,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             setState(() => _age = value.round()),
                       ),
                       const SizedBox(height: 15),
-
-                      // Giới tính
                       Text(
                         loc.gender,
                         style: const TextStyle(
@@ -251,7 +272,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 25),
 
-              // 🔹 Nút tính BMI
+              // Nút tính BMI
               ElevatedButton(
                 onPressed: () {
                   double bmi = _weight / ((_height / 100) * (_height / 100));

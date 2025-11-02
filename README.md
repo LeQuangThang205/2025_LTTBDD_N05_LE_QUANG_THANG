@@ -66,10 +66,7 @@ flutter pub get
 
 Chạy ứng dụng:
 flutter run
-<<<<<<< HEAD
-
-=======
->>>>>>> 6ba6f40 (Update Drawer user name from Firestore)
+ 6ba6f40 (Update Drawer user name from Firestore)
 
 ## 🛠️ Công Nghệ Sử Dụng
 

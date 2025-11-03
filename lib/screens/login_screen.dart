@@ -33,7 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => HomeScreen(onLocaleChange: (locale) {})),
+          builder: (context) => HomeScreen(onLocaleChange: (locale) {}),
+        ),
       );
     } catch (e) {
       setState(() {
@@ -68,6 +69,32 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    // 🔹 Logo bo tròn nhẹ và nổi
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 6,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.asset(
+                          'assets/images/logo.png',
+                          height: 100,
+                          width: 100,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 25),
+
                     const Text(
                       'Đăng nhập',
                       style: TextStyle(
@@ -77,6 +104,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 25),
+
+                    // 🔹 Ô nhập email
                     TextField(
                       controller: _emailController,
                       decoration: InputDecoration(
@@ -90,6 +119,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       keyboardType: TextInputType.emailAddress,
                     ),
                     const SizedBox(height: 16),
+
+                    // 🔹 Ô nhập mật khẩu
                     TextField(
                       controller: _passwordController,
                       decoration: InputDecoration(
@@ -103,6 +134,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       obscureText: true,
                     ),
                     const SizedBox(height: 24),
+
+                    // 🔹 Nút đăng nhập
                     _isLoading
                         ? const CircularProgressIndicator()
                         : ElevatedButton(
@@ -121,6 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   TextStyle(fontSize: 18, color: Colors.white),
                             ),
                           ),
+
                     if (_errorMessage.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(top: 12),
@@ -131,7 +165,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           textAlign: TextAlign.center,
                         ),
                       ),
+
                     const SizedBox(height: 20),
+
+                    // 🔹 Chuyển sang đăng ký
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

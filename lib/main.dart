@@ -13,6 +13,7 @@ import 'screens/splash_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart'; // 🔹 Thêm dòng này
+import 'screens/blog_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,6 +68,7 @@ class _MyAppState extends State<MyApp> {
         '/profile': (context) => const ProfileScreen(),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(), // 🔹 route đăng ký
+        '/blog': (context) => const BlogScreen(),
       },
       home: const SplashScreen(),
     );

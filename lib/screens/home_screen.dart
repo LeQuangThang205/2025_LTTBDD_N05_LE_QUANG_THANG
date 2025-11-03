@@ -5,6 +5,7 @@ import '../l10n/app_localizations.dart';
 import 'result_screen.dart';
 import 'login_screen.dart';
 import '../main.dart';
+import 'blog_screen.dart'; // ✅ thêm dòng này
 
 class HomeScreen extends StatefulWidget {
   final Function(Locale)? onLocaleChange;
@@ -16,11 +17,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  double _height = 170;
-  double _weight = 60;
-  int _age = 25;
+  final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _weightController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+
   String _gender = 'male';
+  String _heightUnit = 'cm';
+  String _weightUnit = 'kg';
   String currentLanguage = 'vi';
+
+  final _formKey = GlobalKey<FormState>();
 
   void _toggleLanguage() {
     setState(() {
@@ -43,6 +49,25 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void _calculateBMI() {
+    if (_formKey.currentState!.validate()) {
+      double height = double.parse(_heightController.text);
+      double weight = double.parse(_weightController.text);
+
+      if (_heightUnit == 'cm') height /= 100;
+      if (_weightUnit == 'lb') weight *= 0.453592;
+
+      double bmi = weight / (height * height);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ResultScreen(bmi: bmi, weight: weight),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
@@ -59,17 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
       ),
 
-      // ✅ Drawer có thể cập nhật tên theo Firestore
+      // ---------------- DRAWER ----------------
       drawer: Drawer(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(0),
-            bottomRight: Radius.circular(0),
-          ),
-        ),
         child: Column(
           children: [
-            // Header có gradient, ảnh avatar và tên người dùng
             StreamBuilder<DocumentSnapshot>(
               stream: user != null
                   ? FirebaseFirestore.instance
@@ -122,10 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
-
             const SizedBox(height: 10),
-
-            // Các mục menu
             ListTile(
               leading: const Icon(Icons.home, color: Colors.blue),
               title: const Text("Home"),
@@ -146,6 +161,14 @@ class _HomeScreenState extends State<HomeScreen> {
               title: Text(loc.about),
               onTap: () => Navigator.pushNamed(context, '/about'),
             ),
+
+            // ✅ Thêm mục Blog
+            ListTile(
+              leading: const Icon(Icons.article, color: Colors.blue),
+              title: const Text("Blog"),
+              onTap: () => Navigator.pushNamed(context, '/blog'),
+            ),
+
             const Divider(),
             ListTile(
               leading: const Icon(Icons.language, color: Colors.blue),
@@ -173,133 +196,181 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: Column(
-            children: [
-              const SizedBox(height: 10),
-              Text(
-                loc.calculateBmi,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: themeColor,
-                ),
-              ),
-              const SizedBox(height: 25),
-
-              // Card nhập thông tin BMI
-              Card(
-                elevation: 6,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                margin: const EdgeInsets.symmetric(vertical: 8),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("${loc.height}: ${_height.round()} cm",
-                          style: const TextStyle(fontSize: 16)),
-                      Slider(
-                        value: _height,
-                        min: 100,
-                        max: 220,
-                        activeColor: themeColor,
-                        label: "${_height.round()} cm",
-                        onChanged: (value) => setState(() => _height = value),
-                      ),
-                      const SizedBox(height: 15),
-                      Text("${loc.weight}: ${_weight.round()} kg",
-                          style: const TextStyle(fontSize: 16)),
-                      Slider(
-                        value: _weight,
-                        min: 30,
-                        max: 150,
-                        activeColor: themeColor,
-                        label: "${_weight.round()} kg",
-                        onChanged: (value) => setState(() => _weight = value),
-                      ),
-                      const SizedBox(height: 15),
-                      Text("${loc.age}: $_age",
-                          style: const TextStyle(fontSize: 16)),
-                      Slider(
-                        value: _age.toDouble(),
-                        min: 10,
-                        max: 80,
-                        activeColor: themeColor,
-                        label: "$_age",
-                        onChanged: (value) =>
-                            setState(() => _age = value.round()),
-                      ),
-                      const SizedBox(height: 15),
-                      Text(
-                        loc.gender,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ChoiceChip(
-                            label: Text(loc.male),
-                            selected: _gender == 'male',
-                            onSelected: (_) => setState(() => _gender = 'male'),
-                            selectedColor: themeColor,
-                            labelStyle: TextStyle(
-                                color: _gender == 'male'
-                                    ? Colors.white
-                                    : Colors.black),
-                          ),
-                          const SizedBox(width: 15),
-                          ChoiceChip(
-                            label: Text(loc.female),
-                            selected: _gender == 'female',
-                            onSelected: (_) =>
-                                setState(() => _gender = 'female'),
-                            selectedColor: themeColor,
-                            labelStyle: TextStyle(
-                                color: _gender == 'female'
-                                    ? Colors.white
-                                    : Colors.black),
-                          ),
-                        ],
-                      ),
-                    ],
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.asset(
+                    'assets/images/logo.png',
+                    height: 120,
+                    width: 120,
+                    fit: BoxFit.cover,
                   ),
                 ),
-              ),
-
-              const SizedBox(height: 25),
-
-              // Nút tính BMI
-              ElevatedButton(
-                onPressed: () {
-                  double bmi = _weight / ((_height / 100) * (_height / 100));
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          ResultScreen(bmi: bmi, weight: _weight),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: themeColor,
-                  foregroundColor: Colors.white,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 50),
+                const SizedBox(height: 20),
+                Text(
+                  loc.calculateBmi,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: themeColor,
+                  ),
+                ),
+                const SizedBox(height: 25),
+                Card(
+                  elevation: 6,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(20)),
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 25),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        TextFormField(
+                          controller: _heightController,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            labelText: '${loc.height} ($_heightUnit)',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            suffixIcon: DropdownButton<String>(
+                              value: _heightUnit,
+                              underline: const SizedBox(),
+                              onChanged: (val) =>
+                                  setState(() => _heightUnit = val!),
+                              items: const [
+                                DropdownMenuItem(
+                                    value: 'cm', child: Text('cm')),
+                                DropdownMenuItem(value: 'm', child: Text('m')),
+                              ],
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Vui lòng nhập chiều cao';
+                            }
+                            final h = double.tryParse(value);
+                            if (h == null || h <= 0) {
+                              return 'Chiều cao không hợp lệ';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 15),
+                        TextFormField(
+                          controller: _weightController,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            labelText: '${loc.weight} ($_weightUnit)',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            suffixIcon: DropdownButton<String>(
+                              value: _weightUnit,
+                              underline: const SizedBox(),
+                              onChanged: (val) =>
+                                  setState(() => _weightUnit = val!),
+                              items: const [
+                                DropdownMenuItem(
+                                    value: 'kg', child: Text('kg')),
+                                DropdownMenuItem(
+                                    value: 'lb', child: Text('lb')),
+                              ],
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Vui lòng nhập cân nặng';
+                            }
+                            final w = double.tryParse(value);
+                            if (w == null || w <= 0) {
+                              return 'Cân nặng không hợp lệ';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 15),
+                        TextFormField(
+                          controller: _ageController,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            labelText: loc.age,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Vui lòng nhập tuổi';
+                            }
+                            final a = int.tryParse(value);
+                            if (a == null || a <= 0) {
+                              return 'Tuổi không hợp lệ';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ChoiceChip(
+                                label: Text(loc.male),
+                                selected: _gender == 'male',
+                                onSelected: (_) =>
+                                    setState(() => _gender = 'male'),
+                                selectedColor: themeColor,
+                                labelStyle: TextStyle(
+                                    color: _gender == 'male'
+                                        ? Colors.white
+                                        : Colors.black),
+                              ),
+                              const SizedBox(width: 15),
+                              ChoiceChip(
+                                label: Text(loc.female),
+                                selected: _gender == 'female',
+                                onSelected: (_) =>
+                                    setState(() => _gender = 'female'),
+                                selectedColor: themeColor,
+                                labelStyle: TextStyle(
+                                    color: _gender == 'female'
+                                        ? Colors.white
+                                        : Colors.black),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  elevation: 4,
                 ),
-                child: Text(
-                  loc.calculateNow,
-                  style: const TextStyle(fontSize: 18),
+                const SizedBox(height: 25),
+                ElevatedButton(
+                  onPressed: _calculateBMI,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: themeColor,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    elevation: 4,
+                  ),
+                  child: Text(
+                    loc.calculateNow,
+                    style: const TextStyle(fontSize: 18),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

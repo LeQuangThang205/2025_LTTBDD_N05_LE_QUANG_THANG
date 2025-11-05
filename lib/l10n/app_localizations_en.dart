@@ -33,6 +33,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calculateNow => 'Calculate Now';
 
   @override
+  String get blog => 'Blog';
+
+  @override
   String get profile => 'Profile';
 
   @override

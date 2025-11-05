@@ -33,6 +33,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get calculateNow => 'TÍNH NGAY';
 
   @override
+  String get blog => 'Bài viết';
+
+  @override
   String get profile => 'Hồ sơ cá nhân';
 
   @override
@@ -45,70 +48,70 @@ class AppLocalizationsVi extends AppLocalizations {
   String get logout => 'Đăng xuất';
 
   @override
-  String get aboutTitle => 'Giới thiệu Ứng dụng';
+  String get aboutTitle => 'About App';
 
   @override
-  String get aboutDescription => 'Ứng dụng giúp bạn theo dõi chỉ số BMI và duy trì lối sống lành mạnh hơn.';
+  String get aboutDescription => 'This app helps you track your BMI and maintain a healthier lifestyle.';
 
   @override
-  String get aboutTeam => 'Nhóm Phát triển';
+  String get aboutTeam => 'Development Team';
 
   @override
-  String get aboutTeamDetails => 'Được phát triển bởi các sinh viên Công nghệ Thông tin đam mê sức khỏe và công nghệ.';
+  String get aboutTeamDetails => 'Developed by passionate IT students who love health and technology.';
 
   @override
-  String get developerInfo => 'Thông tin Lập trình viên';
+  String get developerInfo => 'Developer Info';
 
   @override
-  String get developerDetails => 'Tác giả: Lê Quang Thắng - Khoa Công nghệ Thông tin.';
+  String get developerDetails => 'Author: Le Quang Thang - Faculty of Information Technology.';
 
   @override
-  String get aboutContact => 'Liên hệ';
+  String get aboutContact => 'Contact';
 
   @override
   String get aboutContactDetails => 'Email: yourname@gmail.com';
 
   @override
-  String get appInfoTitle => 'Thông tin Ứng dụng';
+  String get appInfoTitle => 'App Information';
 
   @override
-  String get appInfoDescription => 'Phiên bản 1.0.0 - Xây dựng bằng Flutter.';
+  String get appInfoDescription => 'Version 1.0.0 - Built with Flutter.';
 
   @override
-  String get featuresTitle => 'Tính năng Chính';
+  String get featuresTitle => 'Main Features';
 
   @override
-  String get featuresDescription => 'Tính chỉ số BMI, theo dõi sức khỏe và nhiều hơn nữa.';
+  String get featuresDescription => 'Calculate BMI, track your health, and more.';
 
   @override
-  String get bmiCategoriesTitle => 'Các Mức BMI';
+  String get bmiCategoriesTitle => 'BMI Categories';
 
   @override
-  String get bmiCategoriesDescription => 'Bao gồm: Gầy, Bình thường, Thừa cân, Béo phì.';
+  String get bmiCategoriesDescription => 'Includes: Underweight, Normal, Overweight, Obese.';
 
   @override
-  String get gettingStartedTitle => 'Bắt đầu Sử dụng';
+  String get gettingStartedTitle => 'Getting Started';
 
   @override
-  String get gettingStartedDescription => 'Nhập dữ liệu của bạn để tính BMI nhanh chóng.';
+  String get gettingStartedDescription => 'Enter your data to calculate BMI quickly.';
 
   @override
-  String get techStackTitle => 'Công nghệ Sử dụng';
+  String get techStackTitle => 'Technology Stack';
 
   @override
   String get techStackDescription => 'Flutter, Dart, Firebase, Material Design.';
 
   @override
-  String get customizationTitle => 'Tùy chỉnh';
+  String get customizationTitle => 'Customization';
 
   @override
-  String get customizationDescription => 'Dễ dàng chuyển đổi ngôn ngữ Anh - Việt.';
+  String get customizationDescription => 'Easily switch between English and Vietnamese.';
 
   @override
-  String get healthJourneyTitle => 'Hành trình Sức khỏe';
+  String get healthJourneyTitle => 'Health Journey';
 
   @override
-  String get healthJourneyDescription => 'Theo dõi tiến trình và cải thiện sức khỏe của bạn.';
+  String get healthJourneyDescription => 'Track your progress and improve your health.';
 
   @override
   String get history => 'Lịch sử BMI';

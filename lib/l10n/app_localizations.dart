@@ -143,6 +143,12 @@ abstract class AppLocalizations {
   /// **'Calculate Now'**
   String get calculateNow;
 
+  /// No description provided for @blog.
+  ///
+  /// In en, this message translates to:
+  /// **'Blog'**
+  String get blog;
+
   /// No description provided for @profile.
   ///
   /// In en, this message translates to:

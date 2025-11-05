@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'firebase_options.dart'; // ✅ thêm dòng này để lấy cấu hình Firebase tự động
-
+import 'firebase_options.dart';
 import 'l10n/app_localizations.dart';
 import 'screens/home_screen.dart';
 import 'screens/result_screen.dart';
@@ -12,17 +9,14 @@ import 'screens/about_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/login_screen.dart';
-import 'screens/register_screen.dart'; // 🔹 Thêm dòng này
+import 'screens/register_screen.dart';
 import 'screens/blog_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // ✅ Khởi tạo Firebase đúng chuẩn từ FlutterFire CLI
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
   runApp(const MyApp());
 }
 
@@ -61,13 +55,15 @@ class _MyAppState extends State<MyApp> {
         fontFamily: 'Roboto',
       ),
       routes: {
-        '/home': (context) => const HomeScreen(),
+        '/home': (context) => HomeScreen(
+              onLocaleChange: (locale) => MyApp.of(context)?.setLocale(locale),
+            ),
         '/history': (context) => const HistoryScreen(),
         '/about': (context) => const AboutScreen(),
         '/result': (context) => const ResultScreen(bmi: 0, weight: 0),
         '/profile': (context) => const ProfileScreen(),
         '/login': (context) => const LoginScreen(),
-        '/register': (context) => const RegisterScreen(), // 🔹 route đăng ký
+        '/register': (context) => const RegisterScreen(),
         '/blog': (context) => const BlogScreen(),
       },
       home: const SplashScreen(),

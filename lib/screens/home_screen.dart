@@ -5,7 +5,7 @@ import '../l10n/app_localizations.dart';
 import 'result_screen.dart';
 import 'login_screen.dart';
 import '../main.dart';
-import 'blog_screen.dart'; // ✅ thêm dòng này
+import 'blog_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final Function(Locale)? onLocaleChange;
@@ -27,17 +27,22 @@ class _HomeScreenState extends State<HomeScreen> {
   String currentLanguage = 'vi';
 
   final _formKey = GlobalKey<FormState>();
+  Key _scaffoldKey = UniqueKey(); // ✅ ép rebuild khi đổi ngôn ngữ
 
   void _toggleLanguage() {
     setState(() {
       if (currentLanguage == 'vi') {
         currentLanguage = 'en';
-        MyApp.of(context)?.setLocale(const Locale('en'));
+        widget.onLocaleChange?.call(const Locale('en'));
       } else {
         currentLanguage = 'vi';
-        MyApp.of(context)?.setLocale(const Locale('vi'));
+        widget.onLocaleChange?.call(const Locale('vi'));
       }
+      _scaffoldKey = UniqueKey(); // ✅ ép rebuild toàn bộ
     });
+
+    // Đóng Drawer để thấy kết quả ngay
+    Navigator.pop(context);
   }
 
   void _logout() async {
@@ -75,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
+      key: _scaffoldKey, // ✅ thêm dòng này
       appBar: AppBar(
         title: Text(
           loc.appTitle,
@@ -141,41 +147,56 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             const SizedBox(height: 10),
+
+            // 🏠 HOME
             ListTile(
               leading: const Icon(Icons.home, color: Colors.blue),
-              title: const Text("Home"),
+              title: Text(loc.home),
               onTap: () => Navigator.pushReplacementNamed(context, '/home'),
             ),
+
+            // 👤 PROFILE
             ListTile(
               leading: const Icon(Icons.person, color: Colors.blue),
-              title: const Text("Profile"),
+              title: Text(loc.profile),
               onTap: () => Navigator.pushNamed(context, '/profile'),
             ),
+
+            // 🕓 HISTORY
             ListTile(
               leading: const Icon(Icons.history, color: Colors.blue),
               title: Text(loc.history),
               onTap: () => Navigator.pushNamed(context, '/history'),
             ),
+
+            // 📰 BLOG
+            ListTile(
+              leading: const Icon(Icons.article, color: Colors.blue),
+              title: Text(loc.blog),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const BlogScreen()),
+              ),
+            ),
+
+            // ℹ️ ABOUT
             ListTile(
               leading: const Icon(Icons.info, color: Colors.blue),
               title: Text(loc.about),
               onTap: () => Navigator.pushNamed(context, '/about'),
             ),
 
-            // ✅ Thêm mục Blog
-            ListTile(
-              leading: const Icon(Icons.article, color: Colors.blue),
-              title: const Text("Blog"),
-              onTap: () => Navigator.pushNamed(context, '/blog'),
-            ),
-
             const Divider(),
+
+            // 🌐 LANGUAGE
             ListTile(
               leading: const Icon(Icons.language, color: Colors.blue),
               title:
                   Text(currentLanguage == 'vi' ? loc.english : loc.vietnamese),
               onTap: _toggleLanguage,
             ),
+
+            // 🚪 LOGOUT
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.red),
               title: Text(loc.logout),
@@ -201,6 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 10),
+
                 ClipRRect(
                   borderRadius: BorderRadius.circular(16),
                   child: Image.asset(
@@ -210,6 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fit: BoxFit.cover,
                   ),
                 ),
+
                 const SizedBox(height: 20),
                 Text(
                   loc.calculateBmi,
@@ -220,6 +243,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 25),
+
+                // Form nhập
                 Card(
                   elevation: 6,
                   shape: RoundedRectangleBorder(
@@ -231,6 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        // Chiều cao
                         TextFormField(
                           controller: _heightController,
                           keyboardType: TextInputType.number,
@@ -263,6 +289,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         ),
                         const SizedBox(height: 15),
+
+                        // Cân nặng
                         TextFormField(
                           controller: _weightController,
                           keyboardType: TextInputType.number,
@@ -296,6 +324,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         ),
                         const SizedBox(height: 15),
+
+                        // Tuổi
                         TextFormField(
                           controller: _ageController,
                           keyboardType: TextInputType.number,
@@ -317,6 +347,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         ),
                         const SizedBox(height: 20),
+
+                        // Giới tính
                         Center(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -328,9 +360,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     setState(() => _gender = 'male'),
                                 selectedColor: themeColor,
                                 labelStyle: TextStyle(
-                                    color: _gender == 'male'
-                                        ? Colors.white
-                                        : Colors.black),
+                                  color: _gender == 'male'
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
                               ),
                               const SizedBox(width: 15),
                               ChoiceChip(
@@ -340,9 +373,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     setState(() => _gender = 'female'),
                                 selectedColor: themeColor,
                                 labelStyle: TextStyle(
-                                    color: _gender == 'female'
-                                        ? Colors.white
-                                        : Colors.black),
+                                  color: _gender == 'female'
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
                               ),
                             ],
                           ),
@@ -352,6 +386,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 25),
+
                 ElevatedButton(
                   onPressed: _calculateBMI,
                   style: ElevatedButton.styleFrom(

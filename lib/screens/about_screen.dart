@@ -128,7 +128,6 @@ class AboutScreen extends StatelessWidget {
                       'Hãy bắt đầu ngay hôm nay với BMI Calculator App! '
                       'Theo dõi chỉ số BMI, nhận lời khuyên hữu ích, và chia sẻ tiến trình với bạn bè.\n\n'
                       'Nếu bạn có góp ý, hãy gửi issue hoặc pull request trên GitHub.\n\n'
-                      'Cập nhật lần cuối: 24/09/2025 - 06:15 PM (+07)\n'
                       'Được phát triển với ❤️ bởi LÊ QUANG THẮNG'),
                 ],
               ),

@@ -173,138 +173,6 @@ abstract class AppLocalizations {
   /// **'Logout'**
   String get logout;
 
-  /// No description provided for @aboutTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'About App'**
-  String get aboutTitle;
-
-  /// No description provided for @aboutDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'This app helps you track your BMI and maintain a healthier lifestyle.'**
-  String get aboutDescription;
-
-  /// No description provided for @aboutTeam.
-  ///
-  /// In en, this message translates to:
-  /// **'Development Team'**
-  String get aboutTeam;
-
-  /// No description provided for @aboutTeamDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'Developed by passionate IT students who love health and technology.'**
-  String get aboutTeamDetails;
-
-  /// No description provided for @developerInfo.
-  ///
-  /// In en, this message translates to:
-  /// **'Developer Info'**
-  String get developerInfo;
-
-  /// No description provided for @developerDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'Author: Le Quang Thang - Faculty of Information Technology.'**
-  String get developerDetails;
-
-  /// No description provided for @aboutContact.
-  ///
-  /// In en, this message translates to:
-  /// **'Contact'**
-  String get aboutContact;
-
-  /// No description provided for @aboutContactDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'Email: yourname@gmail.com'**
-  String get aboutContactDetails;
-
-  /// No description provided for @appInfoTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'App Information'**
-  String get appInfoTitle;
-
-  /// No description provided for @appInfoDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Version 1.0.0 - Built with Flutter.'**
-  String get appInfoDescription;
-
-  /// No description provided for @featuresTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Main Features'**
-  String get featuresTitle;
-
-  /// No description provided for @featuresDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Calculate BMI, track your health, and more.'**
-  String get featuresDescription;
-
-  /// No description provided for @bmiCategoriesTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'BMI Categories'**
-  String get bmiCategoriesTitle;
-
-  /// No description provided for @bmiCategoriesDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Includes: Underweight, Normal, Overweight, Obese.'**
-  String get bmiCategoriesDescription;
-
-  /// No description provided for @gettingStartedTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Getting Started'**
-  String get gettingStartedTitle;
-
-  /// No description provided for @gettingStartedDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter your data to calculate BMI quickly.'**
-  String get gettingStartedDescription;
-
-  /// No description provided for @techStackTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Technology Stack'**
-  String get techStackTitle;
-
-  /// No description provided for @techStackDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Flutter, Dart, Firebase, Material Design.'**
-  String get techStackDescription;
-
-  /// No description provided for @customizationTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Customization'**
-  String get customizationTitle;
-
-  /// No description provided for @customizationDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Easily switch between English and Vietnamese.'**
-  String get customizationDescription;
-
-  /// No description provided for @healthJourneyTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Health Journey'**
-  String get healthJourneyTitle;
-
-  /// No description provided for @healthJourneyDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Track your progress and improve your health.'**
-  String get healthJourneyDescription;
-
   /// No description provided for @history.
   ///
   /// In en, this message translates to:
@@ -502,6 +370,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get save;
+
+  /// No description provided for @aboutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About the Application'**
+  String get aboutTitle;
+
+  /// No description provided for @appName.
+  ///
+  /// In en, this message translates to:
+  /// **'BMI Calculator App'**
+  String get appName;
+
+  /// No description provided for @aboutDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your body in perfect shape with our friendly BMI Tracker! A smart and easy-to-use Body Mass Index (BMI) calculator designed for everyone — men, women, teens, and adults. Whether you\'re aiming to lose weight, gain muscle, or maintain balance, this app is your best health companion!'**
+  String get aboutDescription;
+
+  /// No description provided for @sectionFeaturesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'✨ What\'s Inside?'**
+  String get sectionFeaturesTitle;
+
+  /// No description provided for @sectionFeaturesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover a powerful tool packed in a minimal yet stylish interface that helps you start a healthy lifestyle today. Easily calculate your BMI, track progress, and get personalized tips — all for free!'**
+  String get sectionFeaturesBody;
+
+  /// No description provided for @sectionHighlightsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'🌟 Key Features'**
+  String get sectionHighlightsTitle;
+
+  /// No description provided for @sectionHighlightsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'• Offline Mode: No internet needed — use anytime, anywhere!\n• Accurate BMI: Based on age, gender, height, and weight.\n• BMI Classification: Instantly see which category you fall into.\n• Ideal Weight Suggestion: Based on your height.\n• Flexible Units: Switch between Metric (kg, cm) and Imperial (lbs, ft).\n• History Tracking: Log your BMI journey with detailed records.\n• Health Tips: Personalized advice for your fitness goals.\n• UI Mode: Light / Dark themes.\n• Multi-Language Support: English and Vietnamese.\n• Simple Design: Modern and intuitive interface.\n• Completely Free: No hidden costs!'**
+  String get sectionHighlightsBody;
+
+  /// No description provided for @sectionCategoriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'📊 BMI Categories'**
+  String get sectionCategoriesTitle;
+
+  /// No description provided for @sectionCategoriesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Range\tClassification\n< 16\tSeverely Underweight\n16 - 17\tModerately Underweight\n17 - 18.5\tMildly Underweight\n18.5 - 25\tNormal\n25 - 30\tOverweight\n30 - 35\tObese Class I\n35 - 40\tObese Class II\n> 40\tObese Class III'**
+  String get sectionCategoriesBody;
+
+  /// No description provided for @sectionWhatIsBMITitle.
+  ///
+  /// In en, this message translates to:
+  /// **'🤔 What is BMI?'**
+  String get sectionWhatIsBMITitle;
+
+  /// No description provided for @sectionWhatIsBMIBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Body Mass Index (BMI) is a reliable indicator to estimate body fat based on height and weight for both men and women. It is calculated as weight (kg) divided by height squared (m²). This app also uses age and gender to improve accuracy and give a clearer picture of your health.'**
+  String get sectionWhatIsBMIBody;
+
+  /// No description provided for @sectionGuideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'🚀 Getting Started'**
+  String get sectionGuideTitle;
+
+  /// No description provided for @sectionGuideBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage:\n• Enter Info: Fill in gender, age, weight, and height.\n• Calculate: Tap \'Calculate\' to view your BMI and category.\n• Explore: Check your ideal weight, BMR, and health advice.\n• Track: View your history and trends for motivation.\n\nRequirements:\n• Flutter SDK 3.0.0 or later.\n• IDE: Android Studio, VS Code, or any Flutter-supported editor.\n• Dependencies: Install required packages via pubspec.yaml.\n\nInstallation:\n• Clone repository: git clone https://github.com/LeQuangThang205/2025_LTTBDD_N05_LE_QUANG_THANG.git\n• Enter project folder: cd bmi_calculator_app\n• Install dependencies: flutter pub get\n• Run app: flutter run'**
+  String get sectionGuideBody;
+
+  /// No description provided for @sectionTechTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'🛠️ Technologies Used'**
+  String get sectionTechTitle;
+
+  /// No description provided for @sectionTechBody.
+  ///
+  /// In en, this message translates to:
+  /// **'• Framework: Flutter (Dart)\n• Localization: intl\n• UI Libraries: fl_chart, custom animations\n• Storage: shared_preferences\n• Sharing: share_plus\n• Assets: Custom backgrounds and splash logos'**
+  String get sectionTechBody;
+
+  /// No description provided for @sectionCustomizeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'🎨 Customization'**
+  String get sectionCustomizeTitle;
+
+  /// No description provided for @sectionCustomizeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'• Change background: assets/images/home.jpg (1080x1920px)\n• Splash logo: assets/images/splash_logo.png (1024x1024px)\n• Edit theme colors: in main.dart ThemeData'**
+  String get sectionCustomizeBody;
+
+  /// No description provided for @sectionJourneyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'🌱 Your Health Journey'**
+  String get sectionJourneyTitle;
+
+  /// No description provided for @sectionJourneyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Start today with BMI Calculator App! Track your BMI, receive useful tips, and share your progress with friends.\n\nIf you have suggestions, submit an issue or pull request on GitHub.\n\nDeveloped with ❤️ by LÊ QUANG THẮNG.'**
+  String get sectionJourneyBody;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

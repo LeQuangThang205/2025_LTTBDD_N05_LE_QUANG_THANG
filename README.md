@@ -59,7 +59,7 @@ Clone repository:
 git clone https://github.com/LeQuangThang205/2025_LTTBDD_N05_LE_QUANG_THANG.git
 
 Vào thư mục dự án:
-cd bmi_calculator_app
+cd Projectapp
 
 Cài đặt phụ thuộc:
 flutter pub get
